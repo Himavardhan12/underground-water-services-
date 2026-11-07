@@ -152,14 +152,17 @@
     return keys[keys.length - 1][1];
   }
 
-  /* ---------- step caption windows ---------- */
+  /* ---------- service caption windows ----------
+     The four services surface one layer at a time as the bore goes
+     deeper: drilling for the whole descent (the depth readout climbs
+     0 -> 300 m underneath it), then scanning, then the pumpset, and
+     Underground Water Services on the last, deepest layer as the
+     water comes up. Each window tracks the matching scene phase. */
   const STEP_WINDOWS = [
-    [0.075, 0.152],
-    [0.168, 0.292],
-    [0.31, 0.522],
-    [0.552, 0.698],
-    [0.722, 0.852],
-    [0.882, 1.0],
+    [0.075, 0.522],  /* 01 Hi-Tech Borewell Drilling  */
+    [0.552, 0.698],  /* 02 Borewell Scanning          */
+    [0.722, 0.852],  /* 03 Pumpset Installation       */
+    [0.882, 1.0],    /* 04 Underground Water Services */
   ];
   let activeStep = -1;
 
