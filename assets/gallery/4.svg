@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Placeholder illustration of a submersible pumpset being installed">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1c2b"/><stop offset="1" stop-color="#091320"/></linearGradient>
+    <linearGradient id="steel4" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#86939f"/><stop offset=".5" stop-color="#e4ebf2"/><stop offset="1" stop-color="#86939f"/></linearGradient>
+    <linearGradient id="water4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fd0ff"/><stop offset="1" stop-color="#1f86c9"/></linearGradient>
+    <radialGradient id="glow4" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#5fd0ff" stop-opacity=".22"/><stop offset="1" stop-color="#5fd0ff" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg4)"/>
+  <rect y="120" width="800" height="480" fill="#1a140f" opacity=".7"/>
+  <g stroke="#243244" stroke-width="2" fill="none">
+    <path d="M0 250 H800 M0 380 H800 M0 500 H800"/>
+  </g>
+  <circle cx="400" cy="380" r="210" fill="url(#glow4)"/>
+  <rect x="356" y="40" width="88" height="540" fill="#0c1218"/>
+  <rect x="358" y="40" width="26" height="330" fill="url(#steel4)"/>
+  <rect x="358" y="360" width="26" height="160" fill="url(#steel4)" opacity=".6"/>
+  <g>
+    <rect x="352" y="340" width="96" height="170" rx="20" fill="#cfd9e2"/>
+    <rect x="352" y="340" width="96" height="26" rx="13" fill="#8fa0b0"/>
+    <rect x="352" y="478" width="96" height="32" rx="15" fill="#8fa0b0"/>
+    <g stroke="#7c8b99" stroke-width="4">
+      <line x1="364" y1="386" x2="436" y2="386"/>
+      <line x1="364" y1="404" x2="436" y2="404"/>
+      <line x1="364" y1="422" x2="436" y2="422"/>
+      <line x1="364" y1="440" x2="436" y2="440"/>
+    </g>
+    <rect x="386" y="312" width="28" height="30" rx="6" fill="#5b6a78"/>
+  </g>
+  <rect x="366" y="530" width="68" height="14" rx="7" fill="url(#water4)" opacity=".85"/>
+  <g font-family="Helvetica,Arial,sans-serif" text-anchor="middle">
+    <text x="400" y="512" font-size="27" font-weight="600" fill="#eaf4fb" letter-spacing="1" paint-order="stroke" stroke="#091320" stroke-width="5">PUMP · PIPE · POSITION</text>
+    <text x="400" y="548" font-size="16" fill="#8fa6bb">Placeholder for photo 4 of 6</text>
+  </g>
+</svg>

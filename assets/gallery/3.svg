@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Placeholder illustration of borewell scanning with sonar rings">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1a29"/><stop offset="1" stop-color="#071019"/></linearGradient>
+    <linearGradient id="robe3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3b4652"/><stop offset=".5" stop-color="#596573"/><stop offset="1" stop-color="#3b4652"/></linearGradient>
+    <radialGradient id="scanGlow3" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#5fd0ff" stop-opacity=".28"/><stop offset="1" stop-color="#5fd0ff" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg3)"/>
+  <g stroke="#16283a" stroke-width="2">
+    <path d="M0 120 H800 M0 240 H800 M0 360 H800 M0 480 H800"/>
+  </g>
+  <rect x="330" y="40" width="140" height="520" fill="url(#robe3)"/>
+  <rect x="352" y="40" width="96" height="520" fill="#0c1319"/>
+  <circle cx="400" cy="330" r="170" fill="url(#scanGlow3)"/>
+  <g fill="none" stroke="#7fe0ff">
+    <circle cx="400" cy="330" r="42" stroke-width="2" opacity=".85"/>
+    <circle cx="400" cy="330" r="80" stroke-width="1.8" opacity=".55"/>
+    <circle cx="400" cy="330" r="120" stroke-width="1.6" opacity=".32"/>
+    <circle cx="400" cy="330" r="160" stroke-width="1.4" opacity=".16"/>
+  </g>
+  <line x1="290" y1="330" x2="510" y2="330" stroke="#7fe0ff" stroke-width="2" opacity=".55"/>
+  <g>
+    <rect x="386" y="286" width="28" height="76" rx="12" fill="#dfe7ee"/>
+    <rect x="392" y="276" width="16" height="14" rx="6" fill="#7fe0ff"/>
+    <rect x="392" y="352" width="16" height="8" fill="#4b5763"/>
+  </g>
+  <rect x="386" y="80" width="8" height="196" fill="#8d99a6"/>
+  <g font-family="Helvetica,Arial,sans-serif" fill="#7fe0ff" font-size="14" opacity=".8">
+    <text x="540" y="326">depth logging</text>
+    <text x="540" y="352">strata · casing · yield</text>
+  </g>
+  <g font-family="Helvetica,Arial,sans-serif" text-anchor="middle">
+    <text x="400" y="512" font-size="27" font-weight="600" fill="#eaf4fb" letter-spacing="1" paint-order="stroke" stroke="#071019" stroke-width="5">BOREWELL SCANNING</text>
+    <text x="400" y="548" font-size="16" fill="#8fa6bb">Placeholder for photo 3 of 6</text>
+  </g>
+</svg>

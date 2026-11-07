@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Sai Underground Water Services">
+  <rect width="32" height="32" rx="7" fill="#0a1522"/>
+  <path d="M16 5c4.6 5.4 8 9.5 8 13.7A8 8 0 0 1 8 18.7C8 14.5 11.4 10.4 16 5z" fill="#e8b23a"/>
+  <path d="M16 11.4c2.6 3.1 4.5 5.6 4.5 7.9A4.5 4.5 0 0 1 11.5 19.3c0-2.3 1.9-4.8 4.5-7.9z" fill="#0a1522" opacity=".35"/>
+</svg>
