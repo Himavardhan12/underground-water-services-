@@ -26,19 +26,18 @@ sai/
 ├── assets/favicon.svg      # browser tab icon (SVG)
 ├── assets/favicon-32.png   # 32px fallback icon
 ├── assets/apple-touch-icon.png  # 180px home screen icon
-└── assets/gallery/         # 1.svg to 6.svg, labelled placeholders
+└── assets/gallery/         # 1.jpg to 3.jpg, real site photographs
 ```
 
-## Replacing the gallery photos
+## Gallery photos
 
-The gallery currently uses labelled SVG placeholders. To use real photos:
+The gallery shows the real site photographs in `assets/gallery/` (`1.jpg` to
+`3.jpg`, about 1600 x 1200, JPG). To swap in different photos:
 
-1. Add your images as `assets/gallery/1.jpg` to `6.jpg` (about 1600 x 1200, JPG).
-2. In `index.html`, change the six `img src` values from `.svg` to `.jpg`
-   (or simply replace the `.svg` files with image files of the same name).
+1. Replace the image files, keeping the same names.
+2. Update the `alt` text and `figcaption` in `index.html` to match.
 
-Captions and alt text are already written per tile. A missing image falls back to
-a styled "Photo coming soon" tile automatically.
+A missing image falls back to a styled "Photo coming soon" tile automatically.
 
 ## Scroll experience
 
@@ -69,7 +68,7 @@ How it is built:
 - [x] Privacy policy page
 - [x] Terms and conditions page
 - [x] No third-party builder badge or watermark, no analytics, no tracking pixels
-- [ ] Replace all six gallery placeholders with real site photographs
+- [x] Replace gallery placeholders with real site photographs
 - [ ] Confirm opening hours, phone, email and address with the client
 - [ ] Have a lawyer review `privacy.html` and `terms.html`
 
