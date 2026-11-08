@@ -22,36 +22,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
+<!-- Fallback CSS lives in a file, not an inline <style> block, so a
+     strict Content-Security-Policy can stay in force. It is only
+     fetched when scripting is disabled. -->
 <noscript>
-  <style>
-    /* Without the scroll engine there is no scene timeline, so the page
-       falls back to a static rig frame with the four services listed
-       underneath instead of captions that would never activate. */
-    .journey { height: auto !important; }
-    .journey-sticky { position: relative !important; height: auto !important; overflow: visible !important; }
-    .journey-sticky::before { bottom: auto !important; height: 68svh !important; }
-    .scene { position: relative !important; height: 68svh !important; }
-    .hero-copy { top: 34svh !important; }
-    .steps {
-      position: static !important;
-      height: auto !important;
-      display: grid !important;
-      gap: 34px !important;
-      padding: 34px 20px 12px !important;
-    }
-    .step {
-      position: static !important;
-      width: min(680px, 100%) !important;
-      opacity: 1 !important;
-      transform: none !important;
-      text-align: left !important;
-    }
-    .step-cta { pointer-events: auto !important; }
-    .depth-hud, .scroll-hint { display: none !important; }
-    .reveal { opacity: 1 !important; transform: none !important; }
-    /* without the language engine the switcher would be a dead button */
-    .lang { display: none !important; }
-  </style>
+  <link rel="stylesheet" href="css/noscript.css">
 </noscript>
 <script type="application/ld+json">
 {
@@ -83,6 +58,8 @@
 </script>
 </head>
 <body>
+
+<a class="skip-link" href="#main" data-i18n="ui.skip">Skip to main content</a>
 
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
@@ -138,7 +115,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
 
 <!-- ================= JOURNEY (scroll-driven scene) ================= -->
 <section class="journey" id="home" aria-label="The journey of a borewell" data-i18n-attrs="aria-label:scene.label">
@@ -590,6 +567,20 @@
       <button class="btn btn-primary" type="submit" data-i18n="form.submit">Send on WhatsApp</button>
       <p class="f-note" id="fNote" role="status"></p>
     </form>
+
+    <!-- The enquiry form is completed by the script, which opens
+         WhatsApp. With scripting off there is no backend to post to,
+         so the fields are hidden and the phone and email are offered
+         instead. This text is deliberately not translated: it only
+         ever renders when the language engine is not running. -->
+    <noscript>
+      <p class="f-note f-note-noscript">
+        This form needs JavaScript. Call
+        <a href="tel:+919535750539">95357 50539</a> or email
+        <a href="mailto:saihimavardhan001@gmail.com">saihimavardhan001@gmail.com</a>
+        and we will get back to you.
+      </p>
+    </noscript>
   </div>
 </section>
 

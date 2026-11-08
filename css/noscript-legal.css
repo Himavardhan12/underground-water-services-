@@ -1,0 +1,23 @@
+/* Fallback layout for the legal pages (privacy, terms) when JavaScript
+   is off. Loaded only through <noscript>, so JS-enabled visitors never
+   fetch it. Kept out of an inline <style> block so a strict
+   Content-Security-Policy (style-src 'self') can stay in force. */
+
+.reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* the burger does nothing without the script, so show the links */
+.nav-burger {
+  display: none !important;
+}
+
+.nav-links {
+  display: flex !important;
+}
+
+/* without the language engine the switcher would be a dead button */
+.lang {
+  display: none !important;
+}

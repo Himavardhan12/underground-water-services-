@@ -151,6 +151,7 @@
       "footer.copy": "Sai Underground Water Services. All rights reserved.",
       "ui.lightbox": "Gallery image",
       "ui.close": "Close",
+      "ui.skip": "Skip to main content",
 
       /* ---------- privacy policy ---------- */
       "legal.eyebrow": "Legal",

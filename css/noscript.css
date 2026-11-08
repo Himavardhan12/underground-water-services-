@@ -1,0 +1,86 @@
+/* Fallback layout for the journey page when JavaScript is off.
+   Loaded only through <noscript>, so JS-enabled visitors never fetch
+   it. Kept out of an inline <style> block so a strict Content-Security
+   Policy (style-src 'self') can stay in force for everyone. */
+
+/* Without the scroll engine there is no scene timeline, so the page
+   falls back to a static rig frame with the four services listed
+   underneath instead of captions that would never activate. */
+.journey {
+  height: auto !important;
+}
+
+.journey-sticky {
+  position: relative !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.journey-sticky::before {
+  bottom: auto !important;
+  height: 68svh !important;
+}
+
+.scene {
+  position: relative !important;
+  height: 68svh !important;
+}
+
+.hero-copy {
+  top: 34svh !important;
+}
+
+.steps {
+  position: static !important;
+  height: auto !important;
+  display: grid !important;
+  gap: 34px !important;
+  padding: 34px 20px 12px !important;
+}
+
+.step {
+  position: static !important;
+  width: min(680px, 100%) !important;
+  opacity: 1 !important;
+  transform: none !important;
+  text-align: left !important;
+}
+
+.step-cta {
+  pointer-events: auto !important;
+}
+
+.depth-hud,
+.scroll-hint {
+  display: none !important;
+}
+
+.reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* without the language engine the switcher would be a dead button */
+.lang {
+  display: none !important;
+}
+
+/* The enquiry form is completed by the script, which opens WhatsApp.
+   With scripting off there is no backend to post to, so the fields
+   and the submit button are pointless and the note after the form
+   gives the phone number and email address instead. */
+.enquiry input,
+.enquiry textarea,
+.enquiry button {
+  display: none !important;
+}
+
+.f-note-noscript {
+  display: block;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.f-note-noscript a {
+  color: var(--cyan-deep);
+}

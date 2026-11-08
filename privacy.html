@@ -14,17 +14,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
+<!-- Fallback CSS lives in a file, not an inline <style> block, so a
+     strict Content-Security-Policy can stay in force. It is only
+     fetched when scripting is disabled. -->
 <noscript>
-  <style>
-    .reveal { opacity: 1 !important; transform: none !important; }
-    .nav-burger { display: none !important; }
-    .nav-links { display: flex !important; }
-    /* without the language engine the switcher would be a dead button */
-    .lang { display: none !important; }
-  </style>
+  <link rel="stylesheet" href="css/noscript-legal.css">
 </noscript>
 </head>
 <body>
+
+<a class="skip-link" href="#main" data-i18n="ui.skip">Skip to main content</a>
 
 <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
 
@@ -80,7 +79,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
 
 <div class="page-head">
   <div class="container">

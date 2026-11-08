@@ -831,9 +831,15 @@
     figure.removeAttribute("tabindex");
     const ph = document.createElement("div");
     ph.className = "ph";
-    /* data-i18n keeps the caption in step if the language changes later */
-    ph.innerHTML =
-      PH_ICON + '<span data-i18n="gallery.phMissing">' + t("gallery.phMissing") + "</span>";
+    /* The icon is a fixed constant, so it is the only thing parsed as
+       markup. The caption is built as a text node instead of being
+       concatenated into HTML, so a translation can never be read as
+       markup. data-i18n keeps it in step if the language changes. */
+    ph.innerHTML = PH_ICON;
+    const label = document.createElement("span");
+    label.setAttribute("data-i18n", "gallery.phMissing");
+    label.textContent = t("gallery.phMissing");
+    ph.appendChild(label);
     figure.appendChild(ph);
   }
 
@@ -982,9 +988,12 @@
     /* freeze the caption fade so the reported opacity is the rule's
        target value instead of frame zero of an animation the headless
        clock never advances */
-    const freeze = document.createElement("style");
-    freeze.textContent = ".step { transition: none !important; }";
-    document.head.appendChild(freeze);
+    /* Done through the CSSOM rather than an injected <style> element:
+       style-src 'self' would refuse a parser-inserted rule, while
+       element.style is still allowed. */
+    stepEls.forEach((el) => {
+      el.style.transition = "none";
+    });
     const dp = clamp(parseFloat(debugParam) || 0, 0, 1);
     render(dp, 0, false);
     /* the caption fade runs for 0.55s, so the report is written once

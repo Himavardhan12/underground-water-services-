@@ -124,6 +124,7 @@ window.SaiI18n.register("hi", {
   "footer.copy": "Sai Underground Water Services. सर्वाधिकार सुरक्षित।",
   "ui.lightbox": "गैलरी की छवि",
   "ui.close": "बंद करें",
+  "ui.skip": "मुख्य सामग्री पर जाएँ",
 
   /* ---------- privacy policy ---------- */
   "legal.eyebrow": "क़ानूनी",

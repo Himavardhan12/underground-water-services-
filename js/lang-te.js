@@ -124,6 +124,7 @@ window.SaiI18n.register("te", {
   "footer.copy": "Sai Underground Water Services. అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి.",
   "ui.lightbox": "గ్యాలరీ చిత్రం",
   "ui.close": "మూసివేయండి",
+  "ui.skip": "ప్రధాన కంటెంట్‌కు వెళ్లండి",
 
   /* ---------- privacy policy ---------- */
   "legal.eyebrow": "చట్టపరమైన సమాచారం",

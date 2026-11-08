@@ -115,6 +115,7 @@ window.SaiI18n.register("kn", {
   "footer.copy": "Sai Underground Water Services. ಎಲ್ಲ ಹಕ್ಕುಗಳು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ.",
   "ui.lightbox": "ಗ್ಯಾಲರಿ ಚಿತ್ರ",
   "ui.close": "ಮುಚ್ಚಿರಿ",
+  "ui.skip": "ಮುಖ್ಯ ವಿಷಯಕ್ಕೆ ಹೋಗಿ",
 
   "legal.eyebrow": "ಕಾನೂನು",
   "legal.updated": "ಕೊನೆಯ ನವೀಕರಣ: ನವೆಂಬರ್ 7, 2026",

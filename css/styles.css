@@ -258,6 +258,29 @@ button:focus-visible,
   pointer-events: none;
 }
 
+/* Skip link: the first focusable element on every page. It sits off
+   screen until it takes focus, then drops down so keyboard and screen
+   reader users can jump straight past the navigation. */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  padding: 11px 18px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: #eef1f4;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-180%);
+  transition: transform 0.2s var(--ease);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 /* =========================================================
    NAV
    ========================================================= */
