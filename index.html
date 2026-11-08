@@ -6,7 +6,7 @@
 <title>Sai Underground Water Services | Borewell Drilling, Bengaluru</title>
 <meta name="description" content="Hi-tech borewell drilling, borewell scanning and pumpset installation in Bengaluru. Underground water services by Sai Underground Water Services. Call 9535750539.">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#0a1522">
+<meta name="theme-color" content="#15120f">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sai Underground Water Services">
 <meta property="og:title" content="Sai Underground Water Services | Borewell Drilling, Scanning & Pumpset Installation">
@@ -20,14 +20,13 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 <noscript>
   <style>
-    .journey { height: 100svh !important; }
-    .journey-sticky { position: relative !important; }
-    .steps, .depth-hud, .scroll-hint { display: none !important; }
     .reveal { opacity: 1 !important; transform: none !important; }
+    .nav-burger { display: none !important; }
+    .nav-links { display: flex !important; }
   </style>
 </noscript>
 <script type="application/ld+json">
@@ -69,8 +68,8 @@
     <a class="brand" href="#home" aria-label="Sai Underground Water Services home">
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 40 40" width="34" height="34">
-          <circle cx="20" cy="20" r="19" fill="none" stroke="currentColor" stroke-width="2" opacity=".45"/>
-          <path d="M20 7c5.2 6 9 10.6 9 15.4A9 9 0 0 1 11 22.4C11 17.6 14.8 13 20 7z" fill="currentColor"/>
+          <rect x="1.5" y="1.5" width="37" height="37" rx="11" fill="none" stroke="currentColor" stroke-width="2.4" opacity=".35"/>
+          <path d="M20 8c5.2 6 9 10.6 9 15.4A9 9 0 0 1 11 23.4C11 18.6 14.8 14 20 8z" fill="currentColor"/>
         </svg>
       </span>
       <span class="brand-text">
@@ -108,349 +107,63 @@
 
 <main>
 
-<!-- ================= JOURNEY (scroll-driven scene) ================= -->
-<section class="journey" id="home" aria-label="The journey of a borewell">
-  <div class="journey-sticky">
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-grid">
 
-    <svg id="scene" class="scene" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#07111f"/>
-          <stop offset=".55" stop-color="#0f2c47"/>
-          <stop offset="1" stop-color="#2b6285"/>
-        </linearGradient>
-        <linearGradient id="sunGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#ffe6ad"/>
-          <stop offset="1" stop-color="#ffce7a"/>
-        </linearGradient>
-        <radialGradient id="sunGlow" cx=".5" cy=".5" r=".5">
-          <stop offset="0" stop-color="#ffd98f" stop-opacity=".55"/>
-          <stop offset="1" stop-color="#ffd98f" stop-opacity="0"/>
-        </radialGradient>
-        <radialGradient id="finalGlow" cx=".5" cy=".5" r=".5">
-          <stop offset="0" stop-color="#dff4ff" stop-opacity=".55"/>
-          <stop offset="1" stop-color="#dff4ff" stop-opacity="0"/>
-        </radialGradient>
-        <linearGradient id="soilGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#6d4b2d"/>
-          <stop offset="1" stop-color="#5b3d24"/>
-        </linearGradient>
-        <linearGradient id="subGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#8b6a41"/>
-          <stop offset="1" stop-color="#7a5c38"/>
-        </linearGradient>
-        <linearGradient id="gravelGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#948a76"/>
-          <stop offset="1" stop-color="#847a67"/>
-        </linearGradient>
-        <linearGradient id="rockGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#454d57"/>
-          <stop offset="1" stop-color="#313841"/>
-        </linearGradient>
-        <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#6fd0ff"/>
-          <stop offset="1" stop-color="#1f86c9"/>
-        </linearGradient>
-        <linearGradient id="steelGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#8d99a6"/>
-          <stop offset=".5" stop-color="#dfe6ec"/>
-          <stop offset="1" stop-color="#8d99a6"/>
-        </linearGradient>
+      <div class="hero-copy">
+        <p class="eyebrow">Underground Water Services · Bengaluru</p>
+        <h1>Borewell drilling,<br><em>scanning &amp; pumpsets.</em></h1>
+        <p class="lede">Hi-tech borewell drilling, precision borewell scanning and complete pumpset installation across Bengaluru, handled end to end by one accountable team.</p>
 
-        <clipPath id="strataWipe">
-          <rect id="wipeRect" x="-400" y="300" width="2000" height="0"/>
-        </clipPath>
-        <clipPath id="underClip">
-          <rect x="-400" y="301" width="2000" height="2300"/>
-        </clipPath>
-        <clipPath id="holeClip">
-          <rect id="holeClipRect" x="578" y="300" width="44" height="0"/>
-        </clipPath>
-      </defs>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="tel:+919535750539">Call 95357 50539</a>
+          <a class="btn btn-ghost" href="#contact">Get a free site visit</a>
+        </div>
 
-      <g id="camera">
-
-        <!-- ===== SKY ===== -->
-        <rect x="-600" y="-900" width="2400" height="1201" fill="url(#skyGrad)"/>
-        <g id="skyAmbient">
-          <circle id="sunHalo" cx="960" cy="120" r="220" fill="url(#sunGlow)"/>
-          <circle cx="960" cy="120" r="46" fill="url(#sunGrad)"/>
-          <g id="clouds" fill="#ffffff" opacity=".10">
-            <ellipse cx="220" cy="120" rx="90" ry="22"/>
-            <ellipse cx="290" cy="110" rx="60" ry="18"/>
-            <ellipse cx="760" cy="70" rx="110" ry="24"/>
-            <ellipse cx="840" cy="62" rx="70" ry="18"/>
-          </g>
-          <!-- distant hills -->
-          <path d="M-200 300 L60 190 L260 300 Z" fill="#0d2337" opacity=".85"/>
-          <path d="M140 300 L420 168 L700 300 Z" fill="#123149" opacity=".9"/>
-          <path d="M640 300 L900 200 L1160 300 Z" fill="#0d2337" opacity=".85"/>
-          <path d="M1020 300 L1240 210 L1440 300 Z" fill="#123149" opacity=".8"/>
-        </g>
-
-        <!-- ===== SOLID EARTH (always present) ===== -->
-        <rect x="-400" y="300" width="2000" height="2400" fill="#33261a"/>
-
-        <!-- ===== STRATA CROSS-SECTION (revealed by wipe) ===== -->
-        <g id="strata" clip-path="url(#strataWipe)">
-          <rect x="-400" y="300" width="2000" height="220" fill="url(#soilGrad)"/>
-          <rect x="-400" y="520" width="2000" height="240" fill="url(#subGrad)"/>
-          <rect x="-400" y="760" width="2000" height="260" fill="url(#gravelGrad)"/>
-          <rect x="-400" y="1020" width="2000" height="1680" fill="url(#rockGrad)"/>
-
-          <!-- soil texture -->
-          <g fill="#7d5a37" opacity=".65">
-            <circle cx="120" cy="360" r="4"/><circle cx="330" cy="430" r="3"/><circle cx="520" cy="345" r="5"/>
-            <circle cx="760" cy="455" r="3.5"/><circle cx="980" cy="380" r="4"/><circle cx="1120" cy="470" r="3"/>
-            <circle cx="240" cy="490" r="3"/><circle cx="860" cy="330" r="3"/>
-          </g>
-          <!-- sand streaks -->
-          <g stroke="#9c7a4e" stroke-width="3" opacity=".5" fill="none">
-            <path d="M-40 580 q220 26 430 0 t430 0 t430 0"/>
-            <path d="M-40 680 q260 -30 520 0 t520 0"/>
-          </g>
-          <!-- gravel pebbles -->
-          <g fill="#a99f88">
-            <ellipse cx="150" cy="820" rx="14" ry="10"/><ellipse cx="300" cy="900" rx="11" ry="8"/>
-            <ellipse cx="470" cy="840" rx="16" ry="11"/><ellipse cx="660" cy="940" rx="12" ry="9"/>
-            <ellipse cx="830" cy="830" rx="15" ry="10"/><ellipse cx="1010" cy="910" rx="13" ry="9"/>
-            <ellipse cx="1140" cy="850" rx="11" ry="8"/><ellipse cx="230" cy="980" rx="14" ry="10"/>
-            <ellipse cx="560" cy="1000" rx="10" ry="7"/><ellipse cx="920" cy="990" rx="15" ry="10"/>
-          </g>
-          <g fill="#7c7360" opacity=".8">
-            <ellipse cx="220" cy="870" rx="9" ry="6"/><ellipse cx="400" cy="950" rx="8" ry="6"/>
-            <ellipse cx="740" cy="870" rx="9" ry="6"/><ellipse cx="1080" cy="970" rx="8" ry="6"/>
-          </g>
-          <!-- rock fractures -->
-          <g stroke="#2a313a" stroke-width="4" fill="none" opacity=".85">
-            <path d="M-40 1120 l260 44 l240 -30 l300 56 l280 -40 l260 34"/>
-            <path d="M-40 1360 l300 -46 l280 40 l260 -34 l320 52 l200 -30"/>
-            <path d="M-40 1640 l340 50 l300 -44 l320 48 l300 -40 l180 26"/>
-            <path d="M-40 1980 l300 -50 l320 56 l280 -40 l340 50"/>
-          </g>
-          <g stroke="#525b66" stroke-width="2" fill="none" opacity=".6">
-            <path d="M180 1060 l60 120 l-40 140"/><path d="M980 1100 l-70 130 l50 150"/>
-            <path d="M540 1500 l80 160 l-60 180"/><path d="M1140 1700 l-60 140 l40 160"/>
-          </g>
-          <!-- hard-rock speckle -->
-          <g fill="#5a636e" opacity=".5">
-            <circle cx="140" cy="1200" r="5"/><circle cx="420" cy="1320" r="4"/><circle cx="760" cy="1240" r="6"/>
-            <circle cx="1040" cy="1420" r="4"/><circle cx="300" cy="1560" r="5"/><circle cx="880" cy="1680" r="5"/>
-            <circle cx="600" cy="1880" r="6"/><circle cx="1160" cy="2050" r="4"/><circle cx="200" cy="2140" r="5"/>
-          </g>
-        </g>
-
-        <!-- ===== SURFACE LINE ===== -->
-        <g id="surface">
-          <rect x="-400" y="292" width="2000" height="10" fill="#4a6b3c"/>
-          <rect x="-400" y="300" width="2000" height="4" fill="#2a1f14"/>
-          <g stroke="#5b7f49" stroke-width="3" stroke-linecap="round" opacity=".9">
-            <path d="M120 294 l-6 -16"/><path d="M132 294 l4 -14"/><path d="M300 294 l-5 -15"/>
-            <path d="M880 294 l6 -15"/><path d="M894 294 l-3 -13"/><path d="M1060 294 l5 -14"/>
-          </g>
-        </g>
-
-        <!-- ===== SPOIL: cuttings discharged clear of the rig ===== -->
-        <g id="spoilG" opacity="0">
-          <path id="spoilMound" d="M830 300 L830 300 L830 300 Z" fill="#6b5334"/>
-          <path id="spoilCap" d="M830 300 L830 300 L830 300 Z" fill="#8d7049" opacity=".75"/>
-          <g id="spoilChips" fill="#a08559">
-            <circle r="4"/><circle r="5"/><circle r="4.5"/>
-            <circle r="4"/><circle r="3.6"/><circle r="3.4"/>
-          </g>
-        </g>
-
-        <!-- ===== BOREHOLE ===== -->
-        <g id="borehole">
-          <rect id="holeRect" x="578" y="300" width="44" height="0" fill="#141110"/>
-          <!-- casing collar -->
-          <rect id="casingCollar" x="568" y="286" width="64" height="18" rx="4" fill="url(#steelGrad)" opacity="0"/>
-          <rect id="casingPipe" x="572" y="300" width="56" height="60" fill="#6b7683" opacity="0"/>
-          <!-- water inside hole -->
-          <g clip-path="url(#holeClip)">
-            <rect id="holeWater" x="578" y="1520" width="44" height="0" fill="url(#waterGrad)"/>
-          </g>
-        </g>
-
-        <!-- ===== DRILL STRING ===== -->
-        <g id="drillG" opacity="0">
-          <rect id="drillString" x="595" y="54" width="10" height="0" fill="url(#steelGrad)"/>
-          <!-- turning shaft: a dashed line whose offset advances. In flat
-               side view that is how a rotating rod actually reads. -->
-          <line id="drillSpin" x1="600" y1="56" x2="600" y2="56" stroke="#8f9ba7"
-                stroke-width="3" stroke-dasharray="7 14" opacity=".7"/>
-          <!-- tool joints, one per pipe section, added at the top -->
-          <g id="drillJoints"></g>
-          <path id="drillBit" d="M-24 -54 h48 v24 l-13 30 h-22 l-13 -30 z" fill="#c8d2db"/>
-          <g id="drillCollar">
-            <rect x="-15" y="-46" width="30" height="40" rx="5" fill="#9fabb6"/>
-          </g>
-        </g>
-        <g id="cuttingsG" clip-path="url(#holeClip)" opacity="0" fill="#c2b393">
-          <circle r="3"/><circle r="2.4"/><circle r="3.4"/><circle r="2"/><circle r="2.8"/><circle r="2.2"/>
-        </g>
-
-        <!-- ===== SCANNING ===== -->
-        <g id="scanG" opacity="0" clip-path="url(#underClip)">
-          <!-- winch cable down the hole to the probe -->
-          <rect id="scanCable" x="597" y="300" width="6" height="0" fill="#46525e"/>
-          <g id="scanRings" fill="none" stroke="#8fd4ef" stroke-width="2" opacity=".7">
-            <circle r="40"/><circle r="40"/><circle r="40"/>
-          </g>
-          <g id="scanProbe" transform="translate(600,600)">
-            <rect x="-9" y="-34" width="18" height="56" rx="8" fill="#dfe7ee"/>
-            <rect x="-5" y="-40" width="10" height="10" rx="4" fill="#8fd4ef"/>
-            <rect x="-5" y="14" width="10" height="6" fill="#4b5763"/>
-          </g>
-          <line id="scanLine" x1="520" y1="600" x2="680" y2="600" stroke="#8fd4ef" stroke-width="2" opacity=".55"/>
-        </g>
-
-        <!-- ===== PUMPSET ===== -->
-        <g id="pumpG" opacity="0">
-          <rect id="pumpPipe" x="586" y="300" width="28" height="0" fill="url(#steelGrad)"/>
-          <!-- flat submersible cable strapped beside the delivery pipe -->
-          <rect id="pumpCable" x="576" y="300" width="5" height="0" fill="#39434d"/>
-          <g id="pumpBody" transform="translate(600,400)">
-            <rect x="-30" y="-58" width="60" height="116" rx="14" fill="#cfd9e2"/>
-            <rect x="-30" y="-58" width="60" height="18" rx="9" fill="#8fa0b0"/>
-            <rect x="-30" y="34" width="60" height="24" rx="11" fill="#8fa0b0"/>
-            <g stroke="#7c8b99" stroke-width="3">
-              <line x1="-24" y1="-16" x2="24" y2="-16"/>
-              <line x1="-24" y1="-6" x2="24" y2="-6"/>
-              <line x1="-24" y1="4" x2="24" y2="4"/>
-            </g>
-            <rect x="-6" y="-74" width="12" height="20" rx="5" fill="#5b6a78"/>
-            <rect x="-46" y="-40" width="7" height="86" rx="3" fill="#2f3941"/>
-          </g>
-        </g>
-
-        <!-- ===== WATER AT SURFACE (finale) ===== -->
-        <g id="gushG" opacity="0">
-          <g id="fountain" transform="translate(600,296)">
-            <path id="jet" d="M-10 0 q10 -110 0 -150 q26 44 30 150 z" fill="#bfeaff" opacity=".9"/>
-            <path id="jetInner" d="M-4 0 q4 -70 2 -104 q14 32 18 104 z" fill="#ffffff" opacity=".85"/>
-          </g>
-          <path id="stream" d="M600 300 q140 -14 300 0 q160 14 320 0 l0 26 q-160 12 -320 0 q-160 -12 -300 0 z" fill="url(#waterGrad)" opacity=".95"/>
-          <g id="droplets" fill="#dff4ff">
-            <circle r="5"/><circle r="3.6"/><circle r="4.4"/><circle r="3"/><circle r="4"/>
-          </g>
-        </g>
-        <g id="finalGlowG" opacity="0">
-          <circle cx="600" cy="240" r="420" fill="url(#finalGlow)"/>
-        </g>
-
-        <!-- ===== RIG ===== -->
-        <g id="rigG">
-          <!-- truck bed -->
-          <rect x="424" y="246" width="352" height="40" rx="7" fill="#1d2733"/>
-          <rect x="424" y="246" width="352" height="8" rx="4" fill="#2b3949"/>
-          <!-- wheels -->
-          <g fill="#11181f">
-            <circle cx="474" cy="288" r="17"/><circle cx="524" cy="288" r="17"/>
-            <circle cx="700" cy="288" r="17"/><circle cx="748" cy="288" r="17"/>
-          </g>
-          <g fill="#3d4b5a">
-            <circle cx="474" cy="288" r="7"/><circle cx="524" cy="288" r="7"/>
-            <circle cx="700" cy="288" r="7"/><circle cx="748" cy="288" r="7"/>
-          </g>
-          <!-- cab -->
-          <path d="M424 246 v-42 q0 -12 12 -12 h64 q12 0 12 12 v42 z" fill="#e8b23a"/>
-          <rect x="436" y="204" width="44" height="26" rx="5" fill="#0f2334"/>
-          <!-- deck -->
-          <rect x="546" y="236" width="212" height="14" rx="4" fill="#33414f"/>
-          <!-- derrick mast -->
-          <g stroke="#e8b23a" stroke-width="7" stroke-linecap="round" fill="none">
-            <path d="M566 240 L592 56"/>
-            <path d="M646 240 L620 56"/>
-          </g>
-          <g stroke="#c9922b" stroke-width="4" stroke-linecap="round" fill="none">
-            <path d="M572 198 L640 198"/><path d="M578 156 L634 156"/>
-            <path d="M583 114 L629 114"/><path d="M588 78 L624 78"/>
-            <path d="M570 224 L642 224"/>
-            <path d="M572 198 L634 156"/><path d="M640 198 L578 156"/>
-            <path d="M578 156 L629 114"/><path d="M634 156 L583 114"/>
-            <path d="M583 114 L624 78"/><path d="M629 114 L588 78"/>
-          </g>
-          <!-- crown -->
-          <rect x="584" y="44" width="44" height="18" rx="6" fill="#33414f"/>
-          <circle cx="606" cy="53" r="6" fill="#0f1720"/>
-          <!-- rotary head -->
-          <rect id="rotary" x="576" y="212" width="60" height="22" rx="7" fill="#3d4b5a"/>
-          <!-- operator -->
-          <g transform="translate(806,296)" fill="#101820">
-            <circle cx="0" cy="-44" r="11"/>
-            <path d="M-12 -30 q12 -6 24 0 l4 26 h-32 z"/>
-            <rect x="-11" y="-4" width="8" height="16" rx="3"/>
-            <rect x="3" y="-4" width="8" height="16" rx="3"/>
-            <path d="M-12 -30 l-12 18" stroke="#101820" stroke-width="6" stroke-linecap="round"/>
-          </g>
-          <!-- tool box -->
-          <rect x="690" y="216" width="58" height="24" rx="4" fill="#33414f"/>
-        </g>
-
-        <!-- ===== DUST ===== -->
-        <g id="dustG" fill="#cbb89a"></g>
-
-        <!-- final warm light wash -->
-        <rect id="warmWash" x="-600" y="-900" width="2400" height="3200" fill="#ffe9c2" opacity="0"/>
-      </g>
-    </svg>
-
-    <!-- hero copy -->
-    <div class="hero-copy" id="heroCopy">
-      <p class="eyebrow">Underground Water Services · Bengaluru</p>
-      <h1>Borewell drilling,<br><em>scanning &amp; pumpsets.</em></h1>
-      <p class="lede">Hi-tech borewell drilling, precision borewell scanning and complete pumpset installation across Bengaluru, handled end to end by one accountable team.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="tel:+919535750539">Call 95357 50539</a>
-        <a class="btn btn-ghost" href="#contact">Get a free site visit</a>
+        <ul class="hero-facts">
+          <li>
+            <span class="fact-label">Hours</span>
+            <strong>Mon–Sat · 7 AM – 8 PM</strong>
+          </li>
+          <li>
+            <span class="fact-label">Based in</span>
+            <strong>RT Nagar, Bengaluru</strong>
+          </li>
+          <li>
+            <span class="fact-label">One team</span>
+            <strong>Drilling · Scanning · Pumpsets</strong>
+          </li>
+        </ul>
       </div>
-    </div>
 
-    <!-- service captions: the four services surface one layer at a
-         time as the bore goes deeper, the last one on the deepest layer -->
-    <div class="steps" id="steps" aria-hidden="true">
-      <div class="step" data-step="0">
-        <span class="step-num">Layer 1 · 01/04</span>
-        <h3>Hi-Tech Borewell Drilling</h3>
-        <p>Pneumatic and rotary rigs for any terrain: homes, farms, apartments and industries. Precise casing, controlled depth, clean site handover.</p>
-      </div>
-      <div class="step" data-step="1">
-        <span class="step-num">Layer 2 · 02/04</span>
-        <h3>Borewell Scanning</h3>
-        <p>Digital borehole logging and CCTV inspection that reports true depth, strata changes, blockages and casing condition, so money is spent with information rather than hope.</p>
-      </div>
-      <div class="step" data-step="2">
-        <span class="step-num">Layer 3 · 03/04</span>
-        <h3>Pumpset Installation</h3>
-        <p>Submersible and open-well pump installation with correct height setting, pipe alignment, wiring and commissioning, completed once and completed correctly.</p>
-      </div>
-      <div class="step" data-step="3">
-        <span class="step-num">Layer 4 · 04/04</span>
-        <h3>Underground Water Services</h3>
-        <p>Site survey, water source assessment, flushing, compressor work and annual maintenance to keep your borewell working long after drilling day.</p>
-        <div class="step-cta">
-          <a class="btn btn-primary" href="tel:+919535750539">Call now</a>
-          <a class="btn btn-ghost" href="mailto:saihimavardhan001@gmail.com">Email us</a>
+      <div class="hero-media">
+        <figure class="hero-frame">
+          <img src="assets/gallery/2.jpg" alt="Water gushing high into the air from a freshly drilled borewell" decoding="async">
+          <figcaption>Water from a new borewell</figcaption>
+        </figure>
+        <div class="depth-scale" aria-hidden="true">
+          <span>0 m</span>
+          <span>100 m</span>
+          <span>200 m</span>
+          <span>300 m</span>
         </div>
       </div>
+
     </div>
 
-    <!-- depth HUD -->
-    <div class="depth-hud" id="depthHud" aria-hidden="true">
-      <div class="depth-track"><div class="depth-fill" id="depthFill"></div><div class="depth-dot" id="depthDot"></div></div>
-      <div class="depth-read"><span id="depthVal">0</span><small>m</small></div>
-    </div>
-
-    <div class="scroll-hint" id="scrollHint" aria-hidden="true">
-      <span>Scroll to drill</span>
-      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 4v14m0 0l-6-6m6 6l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    </div>
+    <ul class="hero-rail" aria-label="Services at a glance">
+      <li>Hi-tech drilling</li>
+      <li>Borewell scanning</li>
+      <li>Pumpset installation</li>
+      <li>Flushing &amp; maintenance</li>
+    </ul>
   </div>
 </section>
 
 <!-- ================= SERVICES ================= -->
-<section class="section services" id="services">
+<section class="section section-dark" id="services">
   <div class="container">
     <header class="sec-head reveal">
       <p class="eyebrow">What we do</p>
@@ -458,13 +171,11 @@
       <p class="sec-sub">One team for drilling, scanning and pumping, with no handoffs and no guesswork.</p>
     </header>
 
-    <div class="svc-rows">
-      <article class="svc-row reveal">
+    <div class="svc-grid">
+      <article class="svc-card reveal">
         <span class="svc-n" aria-hidden="true">01</span>
-        <div class="svc-body">
-          <h3>Hi-Tech Borewell Drilling</h3>
-          <p>Pneumatic and rotary rigs for any terrain: homes, farms, apartments and industries. Precise casing, controlled depth, clean site handover.</p>
-        </div>
+        <h3>Hi-Tech Borewell Drilling</h3>
+        <p>Pneumatic and rotary rigs for any terrain: homes, farms, apartments and industries. Precise casing, controlled depth, clean site handover.</p>
         <ul class="ticks">
           <li>Rock and soil strata drilling</li>
           <li>Casing pipe fitting</li>
@@ -472,12 +183,10 @@
         </ul>
       </article>
 
-      <article class="svc-row reveal">
+      <article class="svc-card reveal">
         <span class="svc-n" aria-hidden="true">02</span>
-        <div class="svc-body">
-          <h3>Borewell Scanning</h3>
-          <p>Digital borehole logging and CCTV inspection that reports true depth, strata changes, blockages and casing condition, so money is spent with information rather than hope.</p>
-        </div>
+        <h3>Borewell Scanning</h3>
+        <p>Digital borehole logging and CCTV inspection that reports true depth, strata changes, blockages and casing condition, so money is spent with information rather than hope.</p>
         <ul class="ticks">
           <li>Depth &amp; strata logging</li>
           <li>CCTV visual inspection</li>
@@ -485,12 +194,10 @@
         </ul>
       </article>
 
-      <article class="svc-row reveal">
+      <article class="svc-card reveal">
         <span class="svc-n" aria-hidden="true">03</span>
-        <div class="svc-body">
-          <h3>Pumpset Installation</h3>
-          <p>Submersible and open-well pump installation with correct height setting, pipe alignment, wiring and commissioning, completed once and completed correctly.</p>
-        </div>
+        <h3>Pumpset Installation</h3>
+        <p>Submersible and open-well pump installation with correct height setting, pipe alignment, wiring and commissioning, completed once and completed correctly.</p>
         <ul class="ticks">
           <li>Submersible &amp; open-well pumps</li>
           <li>Pipe lowering &amp; alignment</li>
@@ -498,12 +205,10 @@
         </ul>
       </article>
 
-      <article class="svc-row reveal">
+      <article class="svc-card reveal">
         <span class="svc-n" aria-hidden="true">04</span>
-        <div class="svc-body">
-          <h3>Underground Water Services</h3>
-          <p>Site survey, water source assessment, flushing, compressor work and annual maintenance to keep your borewell working long after drilling day.</p>
-        </div>
+        <h3>Underground Water Services</h3>
+        <p>Site survey, water source assessment, flushing, compressor work and annual maintenance to keep your borewell working long after drilling day.</p>
         <ul class="ticks">
           <li>Free site survey</li>
           <li>Borewell flushing &amp; cleaning</li>
@@ -515,7 +220,7 @@
 </section>
 
 <!-- ================= ABOUT ================= -->
-<section class="section about" id="about">
+<section class="section" id="about">
   <div class="container about-grid">
     <div class="about-copy reveal">
       <p class="eyebrow">Why choose us</p>
@@ -526,18 +231,22 @@
     </div>
     <div class="about-feats reveal">
       <div class="feat">
+        <span class="feat-mark" aria-hidden="true">+</span>
         <strong>Hi-tech equipment</strong>
         <span>Modern pneumatic rigs, digital loggers and CCTV probes.</span>
       </div>
       <div class="feat">
+        <span class="feat-mark" aria-hidden="true">+</span>
         <strong>Depth &amp; strata logged</strong>
         <span>Logged layer-by-layer, so you can plan the pump correctly.</span>
       </div>
       <div class="feat">
+        <span class="feat-mark" aria-hidden="true">+</span>
         <strong>Clean, safe sites</strong>
         <span>Marked work zones, managed spoil and a tidy handover.</span>
       </div>
       <div class="feat">
+        <span class="feat-mark" aria-hidden="true">+</span>
         <strong>Single-point service</strong>
         <span>Drilling, scanning, pumpset and follow-up from one accountable team.</span>
       </div>
@@ -545,8 +254,54 @@
   </div>
 </section>
 
+<!-- ================= PROCESS ================= -->
+<section class="section section-sand" id="process">
+  <div class="container">
+    <header class="sec-head reveal">
+      <p class="eyebrow">How it works</p>
+      <h2>From survey to water.</h2>
+      <p class="sec-sub">One supervised sequence, logged at every stage.</p>
+    </header>
+
+    <ol class="process-list">
+      <li class="reveal">
+        <span class="p-num" aria-hidden="true">01</span>
+        <h3>Site survey</h3>
+        <p>Free site survey and water source assessment before anything moves.</p>
+      </li>
+      <li class="reveal">
+        <span class="p-num" aria-hidden="true">02</span>
+        <h3>Drilling</h3>
+        <p>Pneumatic or rotary rig drills to the planned depth through soil and rock.</p>
+      </li>
+      <li class="reveal">
+        <span class="p-num" aria-hidden="true">03</span>
+        <h3>Logging &amp; scanning</h3>
+        <p>True depth, strata changes, blockages and casing condition, recorded as data.</p>
+      </li>
+      <li class="reveal">
+        <span class="p-num" aria-hidden="true">04</span>
+        <h3>Pumpset installation</h3>
+        <p>Pump lowered, aligned, wired and commissioned, then tested.</p>
+      </li>
+      <li class="reveal">
+        <span class="p-num" aria-hidden="true">05</span>
+        <h3>Aftercare</h3>
+        <p>Flushing, compressor work and annual maintenance keep the bore working.</p>
+      </li>
+    </ol>
+
+    <div class="depth-bar" aria-hidden="true">
+      <span>0 m</span>
+      <span>100 m</span>
+      <span>200 m</span>
+      <span>300 m</span>
+    </div>
+  </div>
+</section>
+
 <!-- ================= GALLERY ================= -->
-<section class="section gallery" id="gallery">
+<section class="section" id="gallery">
   <div class="container">
     <header class="sec-head reveal">
       <p class="eyebrow">Gallery</p>
@@ -572,7 +327,7 @@
 </section>
 
 <!-- ================= CONTACT ================= -->
-<section class="section contact" id="contact">
+<section class="section section-dark" id="contact">
   <div class="container">
     <header class="sec-head reveal">
       <p class="eyebrow">Get in touch</p>

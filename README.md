@@ -18,16 +18,30 @@ python3 -m http.server 8000
 
 ```
 sai/
-├── index.html              # page content + the SVG borewell journey scene
+├── index.html              # single-page site: hero, services, about, process, gallery, contact
 ├── privacy.html            # privacy policy
 ├── terms.html              # terms and conditions
-├── css/styles.css          # design system, layout, responsive, reduced motion
-├── js/main.js              # scroll-linked motion engine + site interactions
+├── css/styles.css          # design tokens, layout, responsive, reduced motion
+├── js/main.js              # nav, reveal, lightbox, enquiry form
 ├── assets/favicon.svg      # browser tab icon (SVG)
 ├── assets/favicon-32.png   # 32px fallback icon
 ├── assets/apple-touch-icon.png  # 180px home screen icon
 └── assets/gallery/         # 1.jpg to 3.jpg, real site photographs
 ```
+
+## Design
+
+Field-grade industrial editorial look, rebuilt from scratch:
+
+- **Palette:** warm ink (`#15120f`), paper (`#f7f4ef`), burnt-orange accent
+  (`#d24a12`), with dark sections for services, contact and footer.
+- **Type:** Archivo for display, Inter for text, JetBrains Mono for labels and
+  depth-scale details (loaded from Google Fonts).
+- **Sections:** hero with photo and depth scale → dark services grid → about +
+  features → 5-step process with depth gauge → gallery mosaic → dark contact
+  with WhatsApp enquiry form.
+- **Motion:** scroll progress bar, section spotlight in the nav, reveal-on-
+  scroll, hover lifts. All motion respects `prefers-reduced-motion`.
 
 ## Gallery photos
 
@@ -38,28 +52,12 @@ The gallery shows the real site photographs in `assets/gallery/` (`1.jpg` to
 2. Update the `alt` text and `figcaption` in `index.html` to match.
 
 A missing image falls back to a styled "Photo coming soon" tile automatically.
+Clicking a tile opens it in a lightbox.
 
-## Scroll experience
+## Behaviour
 
-The borewell journey is one continuous timeline driven by scroll position:
-
-| Scroll progress | Scene |
-| --- | --- |
-| 0 to 14% | Rig arrival, dust and atmospheric motion, hero headline |
-| 14 to 30% | Ground opens into a cutaway, drill breaks through |
-| 30 to 55% | Drill descends through soil, gravel and hard rock (depth readout) |
-| 55 to 70% | Borewell scanning probe and sonar rings |
-| 70 to 86% | Pumpset and pipe lowered into position |
-| 86 to 100% | Return to surface, flowing water finale |
-
-How it is built:
-
-- Single `requestAnimationFrame` loop, one scroll-progress value, SVG transforms.
-- Pinned scene on desktop, shorter sequence and lighter particles on mobile.
-- Pauses when the scene is off screen.
-- `prefers-reduced-motion` gets a static composed frame, no pin, no animation.
-- The enquiry form opens WhatsApp with the message pre-filled. No backend, no
-  stored form data, no cookies, no analytics.
+- The enquiry form runs entirely in the browser and opens WhatsApp with the
+  message pre-filled. No backend, no stored form data, no cookies, no analytics.
 
 ## Launch checklist
 
