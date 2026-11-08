@@ -84,6 +84,7 @@
   /* set by ?p=<progress> in the URL: renders one frame for headless
      checks and reports it in <pre id="debug">. Off in normal use. */
   const debugParam = new URLSearchParams(window.location.search).get("p");
+  const debugMode = debugParam !== null;
   const debugState = {};
 
   /* ---------- drill string tool joints ----------
@@ -130,18 +131,48 @@
     }
   }
 
-  /* ---------- camera keyframes [progress, translateY] ---------- */
+  /* ---------- scene geometry ----------
+     Everything below is measured in the scene's own coordinates
+     (viewBox 0 0 1200 800, ground line at y=300). The strata tops,
+     the bottom of the finished bore and each tool's travel are all
+     read from here, so the caption timing is derived from where the
+     tools actually are instead of retyped by hand when the scene
+     moves. */
+  const SURFACE_Y = 300;                       /* ground line            */
+  const LAYER_Y = [300, 520, 760, 1020, 2700]; /* tops of layers 1-4; the
+                                                  last is the rock floor
+                                                  below the bore          */
+  const HOLE_BOTTOM = 1240;                    /* finished bore depth    */
+  const SCAN_END_Y = 990;                      /* probe settles in layer 3 */
+  const PUMP_END_Y = 1160;                     /* pump set in layer 4    */
+
+  /* progress fractions for each phase of the journey */
+  const P_DRILL_IN = 0.22;
+  const P_DRILL_OUT = 0.53;
+  const P_SCAN_IN = 0.548;
+  const P_SCAN_OUT = 0.712;
+  const P_PUMP_IN = 0.716;
+  const P_PUMP_SETTLE = 0.852;
+  const P_PUMP_OUT = 0.875;
+  const P_WATER = 0.895;
+
+  /* ---------- camera keyframes [progress, translateY] ----------
+     Follows the bit down through the layers, holds deep while the
+     probe and the pump do their work, then rises back to the surface
+     for the water. The rise starts only after the pump has settled,
+     so the pump never leaves the frame while its caption is up. */
   const CAMERA_KEYS = [
     [0.0, 0],
     [0.12, 0],
     [0.18, -30],
     [0.32, -200],
-    [0.52, -430],
-    [0.56, -470],
+    [0.52, -620],
+    [0.57, -500],
     [0.7, -500],
-    [0.745, -240],
-    [0.86, -240],
-    [0.93, 0],
+    [0.745, -520],
+    [0.8, -540],
+    [0.83, -540],
+    [0.9, 0],
     [1.0, 0],
   ];
 
@@ -157,19 +188,50 @@
     return keys[keys.length - 1][1];
   }
 
+  /* ---------- inverse smoothstep ----------
+     smooth() maps x to x*x*(3-2x); this inverts it so a caption
+     window can be written as "the moment the bit reaches y" instead
+     of as a progress number that has to be retuned whenever the
+     scene's geometry changes. */
+  function invSmooth(v) {
+    let x = 0.5;
+    for (let i = 0; i < 24; i++) {
+      const f = x * x * (3 - 2 * x) - v;
+      const d = 6 * x * (1 - x);
+      if (d < 1e-6) break;
+      x = clamp(x - f / d, 0, 1);
+    }
+    return x;
+  }
+
+  /* progress at which the bit tip reaches scene depth y */
+  function pAtTip(y) {
+    const drillT = clamp((y - SURFACE_Y) / (HOLE_BOTTOM - SURFACE_Y), 0, 1);
+    return P_DRILL_IN + (P_DRILL_OUT - P_DRILL_IN) * invSmooth(drillT);
+  }
+
+  /* layer index, 0-based, containing scene depth y */
+  function layerOf(y) {
+    for (let i = 1; i < LAYER_Y.length - 1; i++) {
+      if (y < LAYER_Y[i]) return i - 1;
+    }
+    return LAYER_Y.length - 2;
+  }
+
   /* ---------- service caption windows ----------
-     The four services surface one layer at a time as the bore goes
-     deeper: drilling for the whole descent (the depth readout climbs
-     0 -> 300 m underneath it), then scanning, then the pumpset, and
-     Underground Water Services on the last, deepest layer as the
-     water comes up. Each window tracks the matching scene phase. */
+     Each window comes out of the scene geometry: 01 opens the moment
+     the bit breaks into the second layer, 02 runs while the probe
+     works the third, 03 while the pump is set on the fourth, and 04
+     from the moment the water comes up. The kicker under each title
+     tracks the tool's layer live, so it is never stale. */
   const STEP_WINDOWS = [
-    [0.075, 0.522],  /* 01 Hi-Tech Borewell Drilling  */
-    [0.552, 0.698],  /* 02 Borewell Scanning          */
-    [0.722, 0.852],  /* 03 Pumpset Installation       */
-    [0.882, 1.0],    /* 04 Underground Water Services */
+    [pAtTip(LAYER_Y[1]), P_DRILL_OUT - 0.008],  /* 01 drilling  */
+    [P_SCAN_IN + 0.004, P_SCAN_OUT - 0.014],    /* 02 scanning  */
+    [P_PUMP_IN + 0.006, P_PUMP_SETTLE],         /* 03 pumpset   */
+    [P_WATER, 1.0],                             /* 04 water     */
   ];
   let activeStep = -1;
+  let lastKicker = "";
 
   /* ---------- depth readout ---------- */
   let lastMetres = -1;
@@ -195,9 +257,20 @@
       scrollHint.style.setProperty("--hint-o", (1 - seg(p, 0.008, 0.06)).toFixed(3));
     }
 
+    /* tool positions, derived once here so the caption block at the
+       end of render can report each tool's live layer */
+    const scanY = lerp(LAYER_Y[2], SCAN_END_Y, smooth(seg(p, 0.56, 0.69)));
+    const pumpY = lerp(
+      LAYER_Y[3],
+      PUMP_END_Y,
+      smooth(seg(p, P_PUMP_IN + 0.004, P_PUMP_SETTLE))
+    );
+
     /* camera */
     const camY = keyframe(CAMERA_KEYS, p);
-    const drillActive = seg(p, 0.22, 0.26) * (1 - seg(p, 0.5, 0.545));
+    const drillActive =
+      seg(p, P_DRILL_IN, P_DRILL_IN + 0.04) *
+      (1 - seg(p, P_DRILL_OUT - 0.03, P_DRILL_OUT + 0.015));
     const shake = staticMode ? 0 : Math.sin(t * 0.05) * 1.5 * drillActive;
     camera.setAttribute("transform", `translate(0 ${(camY + shake).toFixed(2)})`);
 
@@ -211,9 +284,9 @@
     wipeRect.setAttribute("height", (2400 * wipe).toFixed(1));
 
     /* drilling */
-    const drillT = smooth(seg(p, 0.22, 0.53));
-    const tip = lerp(300, 1000, drillT);
-    const holeDepth = Math.max(0, tip - 300);
+    const drillT = smooth(seg(p, P_DRILL_IN, P_DRILL_OUT));
+    const tip = lerp(SURFACE_Y, HOLE_BOTTOM, drillT);
+    const holeDepth = Math.max(0, tip - SURFACE_Y);
     holeRect.setAttribute("height", holeDepth.toFixed(1));
     holeClipRect.setAttribute("height", holeDepth.toFixed(1));
 
@@ -242,10 +315,10 @@
     }
 
     const drillVis = staticMode
-      ? p < 0.53
+      ? p < P_DRILL_OUT
         ? 1
         : 0
-      : clamp(seg(p, 0.2, 0.235) - seg(p, 0.53, 0.565), 0, 1);
+      : clamp(seg(p, 0.2, 0.235) - seg(p, P_DRILL_OUT, P_DRILL_OUT + 0.035), 0, 1);
     drillG.setAttribute("opacity", drillVis.toFixed(3));
     if (drillG) drillG.setAttribute("transform", `translate(0 ${shake.toFixed(2)})`);
 
@@ -270,7 +343,7 @@
     /* spoil heap: cuttings come up the hole and are discharged through the
        flow line into a heap that grows with depth, clear of the rig */
     if (spoilG) {
-      const spoilT = smooth(seg(p, 0.24, 0.53));
+      const spoilT = smooth(seg(p, 0.24, P_DRILL_OUT));
       spoilG.setAttribute("opacity", spoilT.toFixed(3));
       if (spoilT > 0.01) {
         const h = 6 + spoilT * 46;
@@ -294,12 +367,12 @@
     }
 
     /* scanning */
-    const scanVis = staticMode ? 0 : clamp(seg(p, 0.548, 0.578) - seg(p, 0.688, 0.712), 0, 1);
+    const scanVis = staticMode
+      ? 0
+      : clamp(seg(p, P_SCAN_IN, P_SCAN_IN + 0.03) - seg(p, 0.688, P_SCAN_OUT), 0, 1);
     if (scanG) {
       scanG.setAttribute("opacity", scanVis.toFixed(3));
       if (scanVis > 0.01) {
-        const scanT = smooth(seg(p, 0.56, 0.69));
-        const scanY = lerp(520, 930, scanT);
         scanProbe.setAttribute("transform", `translate(600 ${scanY.toFixed(1)})`);
         /* winch cable follows the probe down the hole */
         scanCable.setAttribute(
@@ -321,12 +394,12 @@
     }
 
     /* pumpset lowering */
-    const pumpVis = staticMode ? 0 : clamp(seg(p, 0.716, 0.744) - seg(p, 0.852, 0.875), 0, 1);
+    const pumpVis = staticMode
+      ? 0
+      : clamp(seg(p, P_PUMP_IN, P_PUMP_IN + 0.028) - seg(p, P_PUMP_SETTLE, P_PUMP_OUT), 0, 1);
     if (pumpG) {
       pumpG.setAttribute("opacity", pumpVis.toFixed(3));
       if (pumpVis > 0.01) {
-        const pumpT = smooth(seg(p, 0.72, 0.852));
-        const pumpY = lerp(380, 830, pumpT);
         pumpBody.setAttribute("transform", `translate(600 ${pumpY.toFixed(1)})`);
         pumpPipe.setAttribute("y", "300");
         pumpPipe.setAttribute("height", Math.max(0, pumpY - 58 - 300).toFixed(1));
@@ -339,8 +412,8 @@
     }
 
     /* finale */
-    const fin = smooth(seg(p, 0.875, 0.985));
-    const gushVis = smooth(seg(p, 0.895, 0.955));
+    const fin = smooth(seg(p, P_PUMP_OUT, 0.985));
+    const gushVis = smooth(seg(p, P_WATER, 0.955));
     if (gushG) {
       gushG.setAttribute("opacity", gushVis.toFixed(3));
       const fs = lerp(0.12, 1, gushVis);
@@ -367,10 +440,10 @@
     finalGlowG.setAttribute("opacity", (fin * 0.32).toFixed(3));
     warmWash.setAttribute("opacity", (fin * 0.18).toFixed(3));
 
-    /* water inside the finished bore */
-    const waterUp = smooth(seg(p, 0.895, 0.995));
-    holeWater.setAttribute("y", "760");
-    holeWater.setAttribute("height", (240 * waterUp).toFixed(1));
+    /* water inside the finished bore, rising from the third layer up */
+    const waterUp = smooth(seg(p, P_WATER, 0.995));
+    holeWater.setAttribute("y", String(LAYER_Y[2]));
+    holeWater.setAttribute("height", ((HOLE_BOTTOM - LAYER_Y[2]) * waterUp).toFixed(1));
     holeWater.setAttribute("opacity", waterUp.toFixed(3));
 
     /* dust ambience */
@@ -387,8 +460,9 @@
       });
     }
 
-    /* depth HUD */
-    const frac = clamp(holeDepth / 700, 0, 1);
+    /* depth HUD: the readout is scaled to the full finished bore, so
+       it climbs continuously from 0 to 300 m with the bit */
+    const frac = clamp(holeDepth / (HOLE_BOTTOM - SURFACE_Y), 0, 1);
     const metres = Math.round(frac * 300);
     if (depthHud) {
       depthHud.style.setProperty("--f", frac.toFixed(4));
@@ -399,7 +473,9 @@
       lastMetres = metres;
     }
 
-    /* step captions */
+    /* step captions: one service at a time, on the layer the work is
+       actually happening on. The kicker under each title is rewritten
+       from the tool's live position so it can never read a stale layer. */
     if (!staticMode && stepsWrap) {
       let next = -1;
       for (let i = 0; i < STEP_WINDOWS.length; i++) {
@@ -412,6 +488,31 @@
         stepEls.forEach((el, i) => el.classList.toggle("is-active", i === next));
         activeStep = next;
       }
+      if (next >= 0 && stepEls[next]) {
+        const toolY =
+          next === 0 ? tip : next === 1 ? scanY : next === 2 ? pumpY : null;
+        const kicker =
+          toolY === null
+            ? "Water · 0" + (next + 1) + "/04"
+            : "Layer " + (layerOf(toolY) + 1) + " · 0" + (next + 1) + "/04";
+        if (kicker !== lastKicker) {
+          const numEl = stepEls[next].querySelector(".step-num");
+          if (numEl) numEl.textContent = kicker;
+          lastKicker = kicker;
+        }
+      }
+    }
+
+    /* ?p= frame check: report the state this frame was rendered at */
+    if (debugParam !== null) {
+      debugState.p = Number(p.toFixed(4));
+      debugState.camY = Number(camY.toFixed(1));
+      debugState.tip = Number(tip.toFixed(1));
+      debugState.holeDepth = Number(holeDepth.toFixed(1));
+      debugState.metres = metres;
+      debugState.scanY = Number(scanY.toFixed(1));
+      debugState.pumpY = Number(pumpY.toFixed(1));
+      debugState.active = activeStep;
     }
   }
 
@@ -434,7 +535,7 @@
   }
 
   function kick() {
-    if (!journey || isReduced) return;
+    if (!journey || isReduced || debugMode) return;
     if (!running) {
       running = true;
       rafId = requestAnimationFrame(frame);
@@ -461,6 +562,18 @@
       if (spotlightSections[i].getBoundingClientRect().top <= mark) {
         current = spotlightSections[i];
       }
+    }
+    /* #services is the caption set inside the scene now, and its box
+       sits near the bottom of the viewport for the whole journey, so
+       the loop above never picks it while the scene is on screen. It
+       takes the spotlight only once the first service has surfaced. */
+    if (journey && stepsWrap && current === journey) {
+      const total = journey.offsetHeight - window.innerHeight;
+      const jp =
+        total > 0
+          ? clamp(-journey.getBoundingClientRect().top / total, 0, 1)
+          : 0;
+      if (jp >= STEP_WINDOWS[0][0]) current = stepsWrap;
     }
     if (current.id === spotlightId) return;
     spotlightId = current.id;
@@ -533,7 +646,7 @@
     if (!isReduced) kick();
     window.addEventListener("resize", () => {
       kick();
-      if (!isReduced) {
+      if (!isReduced && !debugMode) {
         const rect = journey.getBoundingClientRect();
         const total = journey.offsetHeight - window.innerHeight;
         render(total > 0 ? clamp(-rect.top / total, 0, 1) : 0, 0, false);
@@ -543,6 +656,47 @@
       reducedQ.addEventListener("change", applyReducedState);
     }
   }
+
+  /* =========================================================
+     SERVICES ANCHOR
+     The Services link points at the captions inside the journey, so a
+     plain anchor jump would land at the sticky element rather than at
+     the moment the first service surfaces. Scroll there instead. In
+     reduced mode the captions are a normal static list, so the
+     browser's own anchor jump is the right behaviour. */
+  function servicesScrollY() {
+    if (!journey) return null;
+    const total = journey.offsetHeight - window.innerHeight;
+    if (total <= 0) return null;
+    return (
+      journey.getBoundingClientRect().top +
+      window.scrollY +
+      STEP_WINDOWS[0][0] * total
+    );
+  }
+
+  function onServicesClick(e) {
+    if (isReduced) return;
+    const y = servicesScrollY();
+    if (y === null) return;
+    e.preventDefault();
+    window.scrollTo({ top: y, behavior: "smooth" });
+    try {
+      history.replaceState(null, "", "#services");
+    } catch (err) {
+      /* the jump already happened; the hash is only a nicety */
+    }
+  }
+
+  document.querySelectorAll('a[href="#services"]').forEach((a) => {
+    a.addEventListener("click", onServicesClick);
+  });
+
+  window.addEventListener("load", () => {
+    if (window.location.hash !== "#services" || isReduced) return;
+    const y = servicesScrollY();
+    if (y !== null) window.scrollTo(0, y);
+  });
 
   /* Nav state, progress bar and the section spotlight run on every
      page, including privacy and terms, which have no journey. */
@@ -772,5 +926,79 @@
     mobileQ.addEventListener("change", () => {
       if (!isReduced) kick();
     });
+  }
+
+  /* =========================================================
+     ?y= SCROLL CHECK
+     Jumps the page to a scroll offset once loaded, for the same
+     headless checks: reveals, nav tone and the section spotlight
+     can then be read off the DOM at a depth a real user reaches by
+     scrolling. Scroll behaviour is forced to instant so the jump is
+     not animated. Nothing of this runs in normal use.
+     ========================================================= */
+  const scrollParam = new URLSearchParams(window.location.search).get("y");
+  if (scrollParam !== null) {
+    window.addEventListener("load", () => {
+      const y = parseFloat(scrollParam) || 0;
+      const prev = root.style.scrollBehavior;
+      root.style.scrollBehavior = "auto";
+      window.scrollTo(0, y);
+      root.style.scrollBehavior = prev;
+      updateUI();
+      if (!isReduced && !debugMode) kick();
+    });
+  }
+
+  /* =========================================================
+     ?p= FRAME CHECK
+     Renders one frame at the given journey progress and prints the
+     scene state, so a headless browser can verify caption timing,
+     tool depth, the live kicker and the depth readout without a
+     scrolling session. The scroll loop is held off while this is on,
+     so the reported frame is the frame on screen. Nothing of this
+     runs in normal use.
+     ========================================================= */
+  if (debugMode && journey) {
+    /* freeze the caption fade so the reported opacity is the rule's
+       target value instead of frame zero of an animation the headless
+       clock never advances */
+    const freeze = document.createElement("style");
+    freeze.textContent = ".step { transition: none !important; }";
+    document.head.appendChild(freeze);
+    const dp = clamp(parseFloat(debugParam) || 0, 0, 1);
+    render(dp, 0, false);
+    /* the caption fade runs for 0.55s, so the report is written once
+       it has settled rather than on the frame the class was set */
+    window.setTimeout(() => {
+      const pre = document.createElement("pre");
+      pre.id = "debug";
+      pre.textContent = JSON.stringify(
+        Object.assign({}, debugState, {
+          windows: STEP_WINDOWS.map((w) => w.map((v) => Number(v.toFixed(4)))),
+          kickers: stepEls.map((el) => {
+            const n = el.querySelector(".step-num");
+            return n ? n.textContent.trim() : null;
+          }),
+          activeClasses: stepEls.map((el) => el.classList.contains("is-active")),
+          stepOpacity: stepEls.map((el) => getComputedStyle(el).opacity),
+          stepsPosition: stepsWrap ? getComputedStyle(stepsWrap).position : null,
+          reduced: root.classList.contains("reduced"),
+          layout: {
+            innerWidth: window.innerWidth,
+            innerHeight: window.innerHeight,
+            scrollWidth: document.documentElement.scrollWidth,
+            docHeight: document.documentElement.scrollHeight,
+            journeyHeight: journey.offsetHeight,
+          },
+          reveals: [
+            document.querySelectorAll(".reveal.in").length,
+            document.querySelectorAll(".reveal").length,
+          ],
+        }),
+        null,
+        2
+      );
+      document.body.appendChild(pre);
+    }, 750);
   }
 })();

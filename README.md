@@ -61,6 +61,29 @@ How it is built:
 - The enquiry form opens WhatsApp with the message pre-filled. No backend, no
   stored form data, no cookies, no analytics.
 
+## Services in the scene
+
+There is no separate services section. The four services are captions that
+surface beside the drill, each one on the layer its own tool works on: 01 when
+the bit breaks into the second layer, 02 as the probe runs the third, 03 while
+the pump is set on the fourth, 04 when the water comes up.
+
+The caption windows are derived from the scene geometry (`pAtTip()` in
+`js/main.js` reads the strata tops out of `LAYER_Y`), so they follow the scene
+if it is ever retimed instead of being retyped by hand. Each caption's kicker
+tracks the live position of its tool, and the Services nav link scrolls to the
+moment the first service appears.
+
+## Headless checks
+
+Two query parameters exist for automated checks. Both are off in normal use.
+
+- `?p=<0..1>` renders one frame at that journey progress and writes the scene
+  state (camera, tool depths, depth readout, active caption) into a
+  `<pre id="debug">` element. The scroll loop is held off while it is on.
+- `?y=<px>` jumps to a scroll offset once loaded, for checking reveals, nav
+  tone and the section spotlight at a depth a real user reaches by scrolling.
+
 ## Launch checklist
 
 - [ ] Connect the custom domain and enable HTTPS
