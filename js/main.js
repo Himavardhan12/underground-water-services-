@@ -17,6 +17,12 @@
   const mobileQ = window.matchMedia("(max-width: 760px)");
   const root = document.documentElement;
 
+  /* language engine (js/i18n.js) — strings that are written by this
+     file rather than found in the markup go through it as well, so a
+     live language switch also updates anything already on screen */
+  const i18n = window.SaiI18n;
+  const t = (key) => (i18n && typeof i18n.t === "function" ? i18n.t(key) : key);
+
   /* deterministic pseudo-random */
   let seed = 20261107;
   const rnd = () => {
@@ -715,7 +721,7 @@
     drawer.classList.remove("open");
     if (burger) {
       burger.setAttribute("aria-expanded", "false");
-      burger.setAttribute("aria-label", "Open menu");
+      burger.setAttribute("aria-label", t("nav.menuOpen"));
     }
   }
 
@@ -723,13 +729,24 @@
     burger.addEventListener("click", () => {
       const open = drawer.classList.toggle("open");
       burger.setAttribute("aria-expanded", String(open));
-      burger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      burger.setAttribute("aria-label", open ? t("nav.menuClose") : t("nav.menuOpen"));
     });
     drawer.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeDrawer));
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeDrawer();
     });
   }
+
+  /* the burger label is rewritten by the language engine on every
+     switch (it only knows the "open" wording), so put it back in
+     step with whatever state the drawer is actually in */
+  document.addEventListener("sai:langchange", () => {
+    if (!burger) return;
+    burger.setAttribute(
+      "aria-label",
+      burger.getAttribute("aria-expanded") === "true" ? t("nav.menuClose") : t("nav.menuOpen")
+    );
+  });
 
   /* =========================================================
      REVEAL ON SCROLL
@@ -814,7 +831,9 @@
     figure.removeAttribute("tabindex");
     const ph = document.createElement("div");
     ph.className = "ph";
-    ph.innerHTML = PH_ICON + "<span>Photo coming soon</span>";
+    /* data-i18n keeps the caption in step if the language changes later */
+    ph.innerHTML =
+      PH_ICON + '<span data-i18n="gallery.phMissing">' + t("gallery.phMissing") + "</span>";
     figure.appendChild(ph);
   }
 
@@ -891,7 +910,8 @@
       const digits = phone.replace(/\D/g, "");
 
       if (!name || digits.length < 8) {
-        fNote.textContent = "Please add your name and a valid phone number.";
+        fNote.setAttribute("data-i18n", "form.err");
+        fNote.textContent = t("form.err");
         fNote.classList.add("error");
         return;
       }
@@ -910,8 +930,8 @@
       }
 
       fNote.classList.remove("error");
-      fNote.textContent =
-        "Opening WhatsApp with your enquiry. If it does not open, call 95357 50539 or email saihimavardhan001@gmail.com.";
+      fNote.setAttribute("data-i18n", "form.opening");
+      fNote.textContent = t("form.opening");
       form.reset();
     });
   }

@@ -22,12 +22,40 @@ sai/
 ├── privacy.html            # privacy policy
 ├── terms.html              # terms and conditions
 ├── css/styles.css          # design system, layout, responsive, reduced motion
+├── js/i18n.js              # language engine + English strings (source of truth)
+├── js/lang-kn.js           # Kannada
+├── js/lang-hi.js           # Hindi
+├── js/lang-te.js           # Telugu
+├── js/lang-ta.js           # Tamil
 ├── js/main.js              # scroll-linked motion engine + site interactions
 ├── assets/favicon.svg      # browser tab icon (SVG)
 ├── assets/favicon-32.png   # 32px fallback icon
 ├── assets/apple-touch-icon.png  # 180px home screen icon
 └── assets/gallery/         # 1.jpg to 3.jpg, real site photographs
 ```
+
+## Languages
+
+The site ships in five languages: English, Kannada (ಕನ್ನಡ), Hindi (हिन्दी),
+Telugu (తెలుగు) and Tamil (தமிழ்). A globe button in the header opens the
+language menu; the choice is stored in `localStorage` under `sai-lang` and
+follows the visitor across all three pages.
+
+How it works:
+
+- Elements opt in with `data-i18n="key"` (plain text), `data-i18n-html="key"`
+  (text containing markup) or `data-i18n-attrs="attr:key,attr:key"` for
+  attributes such as `placeholder`, `alt`, `aria-label`, `title` and the
+  `<meta name="description">` content.
+- `js/i18n.js` holds the English dictionary — it is the source of truth — and
+  applies the selected language, updates `<html lang>` (which switches the font
+  stack to Noto Sans for that script) and persists the choice.
+- Each other language is one file that calls
+  `window.SaiI18n.register("xx", { ... })` with the same keys in the same
+  order. English is used as the fallback for any missing key.
+
+To change a string, edit it in `js/i18n.js` and in each `js/lang-*.js`. To add
+a string, add it to all five files and reference the key from the markup.
 
 ## Gallery photos
 

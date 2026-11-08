@@ -39,8 +39,12 @@
   --radius-sm: 12px;
   --max: 1180px;
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --font-head: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-head: "Sora", "Noto Sans Devanagari", "Noto Sans Kannada",
+    "Noto Sans Telugu", "Noto Sans Tamil", system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-body: "Inter", "Noto Sans Devanagari", "Noto Sans Kannada",
+    "Noto Sans Telugu", "Noto Sans Tamil", system-ui, -apple-system, "Segoe UI",
+    sans-serif;
 }
 
 /* The full-bleed journey scene, the nav while it sits over that scene,
@@ -495,6 +499,139 @@ button:focus-visible,
 .nav-drawer .btn {
   margin-top: 12px;
   color: var(--ink);
+}
+
+/* =========================================================
+   LANGUAGE SWITCHER
+   ========================================================= */
+
+.lang {
+  position: relative;
+  flex: none;
+}
+
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--ghost-bg);
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.3s var(--ease), background 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.lang-btn:hover,
+.lang-btn[aria-expanded="true"] {
+  color: var(--ink);
+  background: var(--ghost-hover-bg);
+  border-color: var(--spot-line);
+}
+
+.lang-globe,
+.lang-caret {
+  flex: none;
+  transition: transform 0.3s var(--ease);
+}
+
+.lang-caret {
+  opacity: 0.7;
+}
+
+.lang-btn[aria-expanded="true"] .lang-caret {
+  transform: rotate(180deg);
+}
+
+.lang-cur {
+  white-space: nowrap;
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 194px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--nav-panel);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-lg);
+  z-index: 120;
+}
+
+/* `hidden` has to beat the display:flex above */
+.lang-menu[hidden] {
+  display: none;
+}
+
+.lang-menu button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  width: 100%;
+  padding: 9px 11px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.94rem;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.lang-menu button:hover,
+.lang-menu button:focus-visible {
+  background: var(--spot-glow);
+  color: var(--ink);
+  outline: none;
+}
+
+.lang-menu button[aria-checked="true"] {
+  color: var(--ink);
+  background: linear-gradient(90deg, var(--spot-glow), transparent);
+  box-shadow: inset 3px 0 0 var(--spot-line);
+}
+
+.lang-native {
+  font-weight: 600;
+}
+
+.lang-gloss {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--muted-2);
+}
+
+/* =========================================================
+   INDIC SCRIPTS
+   Devanagari, Kannada, Telugu and Tamil have no letter case and
+   letter-spacing pulls their conjuncts apart, so the small
+   uppercase labels relax as soon as the page leaves English.
+   ========================================================= */
+
+html:not([lang="en"]) .eyebrow,
+html:not([lang="en"]) .brand-text small,
+html:not([lang="en"]) .scroll-hint,
+html:not([lang="en"]) .c-card h3,
+html:not([lang="en"]) .enquiry label {
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 /* =========================================================
@@ -1392,8 +1529,15 @@ button:focus-visible,
     display: none;
   }
 
+  /* the language switcher stays in the bar, so it takes over the job
+     of pushing the row to the right once the links are gone */
+  .lang {
+    margin-left: auto;
+  }
+
   .nav-burger {
     display: flex;
+    margin-left: 0;
   }
 
   .about-grid {
@@ -1498,15 +1642,23 @@ button:focus-visible,
 }
 
 @media (max-width: 560px) {
-  .brand-text small {
+  /* room for the language switcher: the mark carries the brand */
+  .brand-text {
     display: none;
   }
 
-  .brand-text strong {
-    font-size: 0.84rem;
-    white-space: normal;
-    max-width: 170px;
-    line-height: 1.2;
+  .nav-inner {
+    gap: 14px;
+  }
+
+  .lang-btn {
+    padding: 10px 11px;
+    gap: 6px;
+    font-size: 0.82rem;
+  }
+
+  .lang-caret {
+    display: none;
   }
 
   .hero-copy h1 {

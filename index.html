@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sai Underground Water Services | Borewell Drilling, Bengaluru</title>
-<meta name="description" content="Hi-tech borewell drilling, borewell scanning and pumpset installation in Bengaluru. Underground water services by Sai Underground Water Services. Call 9535750539.">
+<title data-i18n="meta.title.index">Sai Underground Water Services | Borewell Drilling, Bengaluru</title>
+<meta name="description" data-i18n-attrs="content:meta.desc.index" content="Hi-tech borewell drilling, borewell scanning and pumpset installation in Bengaluru. Underground water services by Sai Underground Water Services. Call 9535750539.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0a1522">
 <meta property="og:type" content="website">
@@ -20,7 +20,7 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 <noscript>
   <style>
@@ -49,6 +49,8 @@
     .step-cta { pointer-events: auto !important; }
     .depth-hud, .scroll-hint { display: none !important; }
     .reveal { opacity: 1 !important; transform: none !important; }
+    /* without the language engine the switcher would be a dead button */
+    .lang { display: none !important; }
   </style>
 </noscript>
 <script type="application/ld+json">
@@ -87,7 +89,7 @@
 <!-- ================= NAV ================= -->
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a class="brand" href="#home" aria-label="Sai Underground Water Services home">
+    <a class="brand" href="#home" aria-label="Sai Underground Water Services home" data-i18n-attrs="aria-label:nav.brandAria">
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 40 40" width="34" height="34">
           <circle cx="20" cy="20" r="19" fill="none" stroke="currentColor" stroke-width="2" opacity=".45"/>
@@ -96,41 +98,50 @@
       </span>
       <span class="brand-text">
         <strong>Sai Underground Water Services</strong>
-        <small>Borewells · Scanning · Pumpsets</small>
+        <small data-i18n="nav.tagline">Borewells · Scanning · Pumpsets</small>
       </span>
     </a>
 
-    <nav class="nav-links" aria-label="Primary">
-      <a href="#home">Home</a>
-      <a href="#services">Services</a>
-      <a href="#about">About</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#contact">Contact</a>
+    <nav class="nav-links" aria-label="Primary" data-i18n-attrs="aria-label:nav.primary">
+      <a href="#home" data-i18n="nav.home">Home</a>
+      <a href="#services" data-i18n="nav.services">Services</a>
+      <a href="#about" data-i18n="nav.about">About</a>
+      <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
     </nav>
+
+    <div class="lang" id="langSwitch">
+      <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu">
+        <svg class="lang-globe" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span class="lang-cur" id="langCur">English</span>
+        <svg class="lang-caret" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="lang-menu" id="langMenu" role="menu" aria-label="Language" data-i18n-attrs="aria-label:lang.menuLabel" hidden></div>
+    </div>
 
     <a class="btn btn-call" href="tel:+919535750539">
       <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z" fill="currentColor"/></svg>
       95357 50539
     </a>
 
-    <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navDrawer">
+    <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navDrawer" data-i18n-attrs="aria-label:nav.menuOpen">
       <span></span><span></span><span></span>
     </button>
   </div>
   <div class="nav-drawer" id="navDrawer">
-    <a href="#home">Home</a>
-    <a href="#services">Services</a>
-    <a href="#about">About</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#contact">Contact</a>
-    <a class="btn btn-call" href="tel:+919535750539">Call 95357 50539</a>
+    <a href="#home" data-i18n="nav.home">Home</a>
+    <a href="#services" data-i18n="nav.services">Services</a>
+    <a href="#about" data-i18n="nav.about">About</a>
+    <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
+    <a href="#contact" data-i18n="nav.contact">Contact</a>
+    <a class="btn btn-call" href="tel:+919535750539" data-i18n="nav.callFull">Call 95357 50539</a>
   </div>
 </header>
 
 <main>
 
 <!-- ================= JOURNEY (scroll-driven scene) ================= -->
-<section class="journey" id="home" aria-label="The journey of a borewell">
+<section class="journey" id="home" aria-label="The journey of a borewell" data-i18n-attrs="aria-label:scene.label">
   <div class="journey-sticky">
 
     <svg id="scene" class="scene" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -419,12 +430,12 @@
 
     <!-- hero copy -->
     <div class="hero-copy" id="heroCopy">
-      <p class="eyebrow">Underground Water Services · Bengaluru</p>
-      <h1>Borewell drilling,<br><em>scanning &amp; pumpsets.</em></h1>
-      <p class="lede">Hi-tech borewell drilling, precision borewell scanning and complete pumpset installation across Bengaluru, handled end to end by one accountable team.</p>
+      <p class="eyebrow" data-i18n="hero.eyebrow">Underground Water Services · Bengaluru</p>
+      <h1><span data-i18n="hero.h1a">Borewell drilling,</span><br><em data-i18n="hero.h1b">scanning &amp; pumpsets.</em></h1>
+      <p class="lede" data-i18n="hero.lede">Hi-tech borewell drilling, precision borewell scanning and complete pumpset installation across Bengaluru, handled end to end by one accountable team.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="tel:+919535750539">Call 95357 50539</a>
-        <a class="btn btn-ghost" href="#contact">Get a free site visit</a>
+        <a class="btn btn-primary" href="tel:+919535750539" data-i18n="cta.callNumber">Call 95357 50539</a>
+        <a class="btn btn-ghost" href="#contact" data-i18n="cta.freeVisit">Get a free site visit</a>
       </div>
     </div>
 
@@ -433,27 +444,27 @@
          layer live, so it stays true as the tool goes deeper -->
     <div class="steps" id="services">
       <div class="step" data-step="0">
-        <span class="step-num">Layer 2 · 01/04</span>
-        <h2>Hi-Tech Borewell Drilling</h2>
-        <p>Pneumatic and rotary rigs for any terrain: homes, farms, apartments and industries. Precise casing, controlled depth, clean site handover.</p>
+        <span class="step-num" data-i18n="step1.num">Layer 2 · 01/04</span>
+        <h2 data-i18n="step1.title">Hi-Tech Borewell Drilling</h2>
+        <p data-i18n="step1.body">Pneumatic and rotary rigs for any terrain: homes, farms, apartments and industries. Precise casing, controlled depth, clean site handover.</p>
       </div>
       <div class="step" data-step="1">
-        <span class="step-num">Layer 3 · 02/04</span>
-        <h2>Borewell Scanning</h2>
-        <p>Digital borehole logging and CCTV inspection that reports true depth, strata changes, blockages and casing condition, so money is spent with information rather than hope.</p>
+        <span class="step-num" data-i18n="step2.num">Layer 3 · 02/04</span>
+        <h2 data-i18n="step2.title">Borewell Scanning</h2>
+        <p data-i18n="step2.body">Digital borehole logging and CCTV inspection that reports true depth, strata changes, blockages and casing condition, so money is spent with information rather than hope.</p>
       </div>
       <div class="step" data-step="2">
-        <span class="step-num">Layer 4 · 03/04</span>
-        <h2>Pumpset Installation</h2>
-        <p>Submersible and open-well pump installation with correct height setting, pipe alignment, wiring and commissioning, completed once and completed correctly.</p>
+        <span class="step-num" data-i18n="step3.num">Layer 4 · 03/04</span>
+        <h2 data-i18n="step3.title">Pumpset Installation</h2>
+        <p data-i18n="step3.body">Submersible and open-well pump installation with correct height setting, pipe alignment, wiring and commissioning, completed once and completed correctly.</p>
       </div>
       <div class="step" data-step="3">
-        <span class="step-num">Water · 04/04</span>
-        <h2>Underground Water Services</h2>
-        <p>Site survey, water source assessment, flushing, compressor work and annual maintenance to keep your borewell working long after drilling day.</p>
+        <span class="step-num" data-i18n="step4.num">Water · 04/04</span>
+        <h2 data-i18n="step4.title">Underground Water Services</h2>
+        <p data-i18n="step4.body">Site survey, water source assessment, flushing, compressor work and annual maintenance to keep your borewell working long after drilling day.</p>
         <div class="step-cta">
-          <a class="btn btn-primary" href="tel:+919535750539">Call now</a>
-          <a class="btn btn-ghost" href="mailto:saihimavardhan001@gmail.com">Email us</a>
+          <a class="btn btn-primary" href="tel:+919535750539" data-i18n="cta.callNow">Call now</a>
+          <a class="btn btn-ghost" href="mailto:saihimavardhan001@gmail.com" data-i18n="cta.emailUs">Email us</a>
         </div>
       </div>
     </div>
@@ -461,11 +472,11 @@
     <!-- depth HUD -->
     <div class="depth-hud" id="depthHud" aria-hidden="true">
       <div class="depth-track"><div class="depth-fill" id="depthFill"></div><div class="depth-dot" id="depthDot"></div></div>
-      <div class="depth-read"><span id="depthVal">0</span><small>m</small></div>
+      <div class="depth-read"><span id="depthVal">0</span><small data-i18n="depth.unit">m</small></div>
     </div>
 
     <div class="scroll-hint" id="scrollHint" aria-hidden="true">
-      <span>Scroll to drill</span>
+      <span data-i18n="hint.scroll">Scroll to drill</span>
       <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 4v14m0 0l-6-6m6 6l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </div>
   </div>
@@ -475,28 +486,28 @@
 <section class="section about" id="about">
   <div class="container about-grid">
     <div class="about-copy reveal">
-      <p class="eyebrow">Why choose us</p>
-      <h2>Modern machines.<br>Honest assessment.</h2>
-      <p>Bengaluru's ground is unpredictable: a few feet of soil can give way to hard granite. We combine heavyweight drilling rigs with digital scanning so you know what is beneath your site before, during and after the bore.</p>
-      <p>Every job is supervised, every depth is logged, and every recommendation is backed by data rather than promises.</p>
-      <a class="btn btn-primary" href="#contact">Talk to our team</a>
+      <p class="eyebrow" data-i18n="about.eyebrow">Why choose us</p>
+      <h2><span data-i18n="about.h2a">Modern machines.</span><br><span data-i18n="about.h2b">Honest assessment.</span></h2>
+      <p data-i18n="about.p1">Bengaluru's ground is unpredictable: a few feet of soil can give way to hard granite. We combine heavyweight drilling rigs with digital scanning so you know what is beneath your site before, during and after the bore.</p>
+      <p data-i18n="about.p2">Every job is supervised, every depth is logged, and every recommendation is backed by data rather than promises.</p>
+      <a class="btn btn-primary" href="#contact" data-i18n="about.cta">Talk to our team</a>
     </div>
     <div class="about-feats reveal">
       <div class="feat">
-        <strong>Hi-tech equipment</strong>
-        <span>Modern pneumatic rigs, digital loggers and CCTV probes.</span>
+        <strong data-i18n="feat1.t">Hi-tech equipment</strong>
+        <span data-i18n="feat1.d">Modern pneumatic rigs, digital loggers and CCTV probes.</span>
       </div>
       <div class="feat">
-        <strong>Depth &amp; strata logged</strong>
-        <span>Logged layer-by-layer, so you can plan the pump correctly.</span>
+        <strong data-i18n="feat2.t">Depth &amp; strata logged</strong>
+        <span data-i18n="feat2.d">Logged layer-by-layer, so you can plan the pump correctly.</span>
       </div>
       <div class="feat">
-        <strong>Clean, safe sites</strong>
-        <span>Marked work zones, managed spoil and a tidy handover.</span>
+        <strong data-i18n="feat3.t">Clean, safe sites</strong>
+        <span data-i18n="feat3.d">Marked work zones, managed spoil and a tidy handover.</span>
       </div>
       <div class="feat">
-        <strong>Single-point service</strong>
-        <span>Drilling, scanning, pumpset and follow-up from one accountable team.</span>
+        <strong data-i18n="feat4.t">Single-point service</strong>
+        <span data-i18n="feat4.d">Drilling, scanning, pumpset and follow-up from one accountable team.</span>
       </div>
     </div>
   </div>
@@ -506,23 +517,23 @@
 <section class="section gallery" id="gallery">
   <div class="container">
     <header class="sec-head reveal">
-      <p class="eyebrow">Gallery</p>
-      <h2>Our work on site</h2>
-      <p class="sec-sub">Rigs, rock, drilling and finished borewells from the field.</p>
+      <p class="eyebrow" data-i18n="gallery.eyebrow">Gallery</p>
+      <h2 data-i18n="gallery.h2">Our work on site</h2>
+      <p class="sec-sub" data-i18n="gallery.sub">Rigs, rock, drilling and finished borewells from the field.</p>
     </header>
 
     <div class="grid" id="galleryGrid">
       <figure class="tile reveal" tabindex="0">
-        <img src="assets/gallery/1.jpg" alt="Truck-mounted borewell drilling rig working at a construction site" loading="lazy" decoding="async">
-        <figcaption>Drilling rig on site</figcaption>
+        <img src="assets/gallery/1.jpg" data-i18n-attrs="alt:gallery.alt1" alt="Truck-mounted borewell drilling rig working at a construction site" loading="lazy" decoding="async">
+        <figcaption data-i18n="gallery.cap1">Drilling rig on site</figcaption>
       </figure>
       <figure class="tile reveal" tabindex="0">
-        <img src="assets/gallery/2.jpg" alt="Water gushing high into the air from a freshly drilled borewell" loading="lazy" decoding="async">
-        <figcaption>Water from a new borewell</figcaption>
+        <img src="assets/gallery/2.jpg" data-i18n-attrs="alt:gallery.alt2" alt="Water gushing high into the air from a freshly drilled borewell" loading="lazy" decoding="async">
+        <figcaption data-i18n="gallery.cap2">Water from a new borewell</figcaption>
       </figure>
       <figure class="tile reveal" tabindex="0">
-        <img src="assets/gallery/3.jpg" alt="Our fleet of truck-mounted borewell drilling rigs" loading="lazy" decoding="async">
-        <figcaption>Our drilling fleet</figcaption>
+        <img src="assets/gallery/3.jpg" data-i18n-attrs="alt:gallery.alt3" alt="Our fleet of truck-mounted borewell drilling rigs" loading="lazy" decoding="async">
+        <figcaption data-i18n="gallery.cap3">Our drilling fleet</figcaption>
       </figure>
     </div>
   </div>
@@ -532,9 +543,9 @@
 <section class="section contact" id="contact">
   <div class="container">
     <header class="sec-head reveal">
-      <p class="eyebrow">Get in touch</p>
-      <h2>Book a free site visit</h2>
-      <p class="sec-sub">Tell us your location and we will survey the site and share honest options.</p>
+      <p class="eyebrow" data-i18n="contact.eyebrow">Get in touch</p>
+      <h2 data-i18n="contact.h2">Book a free site visit</h2>
+      <p class="sec-sub" data-i18n="contact.sub">Tell us your location and we will survey the site and share honest options.</p>
     </header>
 
     <div class="contact-grid">
@@ -542,9 +553,9 @@
         <span class="c-ico" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z" fill="currentColor"/></svg>
         </span>
-        <h3>Call us</h3>
+        <h3 data-i18n="contact.callH3">Call us</h3>
         <a class="c-big" href="tel:+919535750539">95357 50539</a>
-        <p>Mon to Sat, 7:00 AM to 8:00 PM</p>
+        <p data-i18n="contact.hours">Mon to Sat, 7:00 AM to 8:00 PM</p>
         <a class="btn btn-ghost" href="https://wa.me/919535750539" target="_blank" rel="noopener">WhatsApp</a>
       </div>
 
@@ -552,31 +563,31 @@
         <span class="c-ico" aria-hidden="true">
           <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </span>
-        <h3>Email</h3>
+        <h3 data-i18n="contact.emailH3">Email</h3>
         <a class="c-big c-mail" href="mailto:saihimavardhan001@gmail.com">saihimavardhan001@gmail.com</a>
-        <p>Send plans or site photos for a quick estimate.</p>
-        <a class="btn btn-ghost" href="mailto:saihimavardhan001@gmail.com?subject=Borewell%20enquiry">Write to us</a>
+        <p data-i18n="contact.emailNote">Send plans or site photos for a quick estimate.</p>
+        <a class="btn btn-ghost" href="mailto:saihimavardhan001@gmail.com?subject=Borewell%20enquiry" data-i18n="contact.writeUs">Write to us</a>
       </div>
 
       <div class="c-card reveal">
         <span class="c-ico" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M12 22s7-6.4 7-12a7 7 0 1 0-14 0c0 5.6 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.6" fill="currentColor"/></svg>
         </span>
-        <h3>Visit</h3>
+        <h3 data-i18n="contact.visitH3">Visit</h3>
         <address>Good weel school, 5th Cross Rd, Bhuvaneshwari Nagar,<br>Kanaka Nagar, RT Nagar, Bengaluru,<br>Karnataka 560032</address>
-        <a class="btn btn-ghost" href="https://maps.app.goo.gl/SALewiNVMJRLHYRb8?g_st=aw" target="_blank" rel="noopener">Open in Maps</a>
+        <a class="btn btn-ghost" href="https://maps.app.goo.gl/SALewiNVMJRLHYRb8?g_st=aw" target="_blank" rel="noopener" data-i18n="contact.maps">Open in Maps</a>
       </div>
     </div>
 
     <form class="enquiry reveal" id="enquiry" novalidate>
-      <h3>Send us an enquiry</h3>
+      <h3 data-i18n="form.h3">Send us an enquiry</h3>
       <div class="f-row">
-        <label>Name<input type="text" name="name" placeholder="Your name" required></label>
-        <label>Phone<input type="tel" name="phone" placeholder="Your phone number" required></label>
+        <label><span data-i18n="form.nameLabel">Name</span><input type="text" name="name" data-i18n-attrs="placeholder:form.namePh" placeholder="Your name" required></label>
+        <label><span data-i18n="form.phoneLabel">Phone</span><input type="tel" name="phone" data-i18n-attrs="placeholder:form.phonePh" placeholder="Your phone number" required></label>
       </div>
-      <label>Site location / message<textarea name="message" rows="4" placeholder="Locality, plot size, what you need…"></textarea></label>
-      <p class="f-hint">Opens WhatsApp with your details pre-filled, so the message reaches us directly. This website does not store what you type.</p>
-      <button class="btn btn-primary" type="submit">Send on WhatsApp</button>
+      <label><span data-i18n="form.msgLabel">Site location / message</span><textarea name="message" rows="4" data-i18n-attrs="placeholder:form.msgPh" placeholder="Locality, plot size, what you need…"></textarea></label>
+      <p class="f-hint" data-i18n="form.hint">Opens WhatsApp with your details pre-filled, so the message reaches us directly. This website does not store what you type.</p>
+      <button class="btn btn-primary" type="submit" data-i18n="form.submit">Send on WhatsApp</button>
       <p class="f-note" id="fNote" role="status"></p>
     </form>
   </div>
@@ -588,26 +599,31 @@
   <div class="container f-inner">
     <div class="f-brand">
       <strong>Sai Underground Water Services</strong>
-      <p>Borewell drilling · Borewell scanning · Pumpset installation · Bengaluru</p>
+      <p data-i18n="footer.tag">Borewell drilling · Borewell scanning · Pumpset installation · Bengaluru</p>
     </div>
-    <nav class="f-links" aria-label="Footer">
-      <a href="#services">Services</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#contact">Contact</a>
-      <a href="privacy.html">Privacy policy</a>
-      <a href="terms.html">Terms and conditions</a>
+    <nav class="f-links" aria-label="Footer" data-i18n-attrs="aria-label:footer.aria">
+      <a href="#services" data-i18n="nav.services">Services</a>
+      <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+      <a href="privacy.html" data-i18n="footer.privacy">Privacy policy</a>
+      <a href="terms.html" data-i18n="footer.terms">Terms and conditions</a>
       <a href="tel:+919535750539">95357 50539</a>
     </nav>
-    <p class="f-copy">© <span id="year">2026</span> Sai Underground Water Services. All rights reserved.</p>
+    <p class="f-copy"><span aria-hidden="true">© </span><span id="year">2026</span> <span data-i18n="footer.copy">Sai Underground Water Services. All rights reserved.</span></p>
   </div>
 </footer>
 
 <!-- lightbox -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Gallery image" hidden>
-  <button class="lb-close" id="lbClose" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Gallery image" data-i18n-attrs="aria-label:ui.lightbox" hidden>
+  <button class="lb-close" id="lbClose" aria-label="Close" data-i18n-attrs="aria-label:ui.close"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
   <img id="lbImg" src="" alt="">
 </div>
 
+<script src="js/i18n.js"></script>
+<script src="js/lang-kn.js"></script>
+<script src="js/lang-hi.js"></script>
+<script src="js/lang-te.js"></script>
+<script src="js/lang-ta.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
