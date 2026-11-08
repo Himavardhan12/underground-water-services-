@@ -21,13 +21,18 @@ sai/
 ├── index.html              # page content + the SVG borewell journey scene
 ├── privacy.html            # privacy policy
 ├── terms.html              # terms and conditions
+├── vercel.json             # deploy config + all security response headers
 ├── css/styles.css          # design system, layout, responsive, reduced motion
+├── css/noscript.css        # fallback layout, loaded only when JS is off
+├── css/noscript-legal.css  # same, for privacy.html and terms.html
 ├── js/i18n.js              # language engine + English strings (source of truth)
 ├── js/lang-kn.js           # Kannada
 ├── js/lang-hi.js           # Hindi
 ├── js/lang-te.js           # Telugu
 ├── js/lang-ta.js           # Tamil
 ├── js/main.js              # scroll-linked motion engine + site interactions
+├── tests/run-tests.py      # executable test suite (see Tests)
+├── tests/harness.html      # drives the real index.html in an iframe
 ├── assets/favicon.svg      # browser tab icon (SVG)
 ├── assets/favicon-32.png   # 32px fallback icon
 ├── assets/apple-touch-icon.png  # 180px home screen icon
@@ -111,6 +116,114 @@ Two query parameters exist for automated checks. Both are off in normal use.
   `<pre id="debug">` element. The scroll loop is held off while it is on.
 - `?y=<px>` jumps to a scroll offset once loaded, for checking reveals, nav
   tone and the section spotlight at a depth a real user reaches by scrolling.
+
+## Tests
+
+```bash
+python3 tests/run-tests.py
+```
+
+The runner starts a local HTTP server that applies the exact response headers
+declared in `vercel.json`, so the Content-Security-Policy is exercised for real
+instead of assumed. It then runs static checks (secrets, inline script/style,
+brand rules, git hygiene), header assertions, and browser checks in headless
+Chrome: form validation and language switching through the production code in
+`tests/harness.html`, scene caption timing at four depths, scroll and reveal
+behaviour, reduced motion, and the no-JavaScript fallback driven through the
+DevTools protocol with scripting switched off. It exits non-zero if anything
+fails.
+
+Notes on the harness:
+
+- Production sends `frame-ancestors 'none'`, which correctly refuses to be
+  framed by anyone. The test server therefore serves the byte-identical
+  `index.html` at a test-only path (`/frame-target.html`) with framing allowed
+  just there; separate assertions confirm every real path still denies framing.
+  That path exists only in the test server, not in production.
+
+## Security
+
+There is no backend, no database, no authentication and no build step, so
+there are no API keys, sessions, cookies or server-side input to protect. The
+enquiry form is completed in the browser and opens WhatsApp with the message
+pre-filled; nothing is stored or posted.
+
+Response headers are declared once in `vercel.json` and applied to every path:
+
+| Header | Purpose |
+| --- | --- |
+| `Content-Security-Policy` | `default-src 'self'`, no inline or `eval` scripts, JSON-LD allowed by SHA-256 hash, Google Fonts from its own origins, `frame-ancestors 'none'`, `base-uri 'self'`, `form-action 'self'` |
+| `X-Content-Type-Options: nosniff` | stops MIME sniffing |
+| `X-Frame-Options: DENY` | clickjacking, belt and braces with `frame-ancestors` |
+| `Strict-Transport-Security` | HTTPS for one year, includeSubDomains, preload |
+| `Referrer-Policy` | send only the origin on cross-site navigations |
+| `Permissions-Policy` | camera, microphone, geolocation, payment, USB all denied |
+
+The CSP has real consequences for how the site is written, so keep these rules
+when editing:
+
+- No inline `<script>`, no `on*=` handlers, no `javascript:` URLs.
+- No inline `<style>` blocks or `style="..."` attributes. Setting styles from
+  JavaScript through the CSSOM (`el.style.x = ...`) is allowed and is what the
+  scroll engine uses.
+- The no-JavaScript fallback CSS lives in `css/noscript.css` and
+  `css/noscript-legal.css`, linked from inside `<noscript>` so it is only
+  fetched when scripting is off.
+- If the JSON-LD block in `index.html` changes, recompute its hash or the CSP
+  will block it:
+
+```bash
+python3 - <<'PY'
+import re, hashlib, base64
+src = open('index.html', encoding='utf8').read()
+for b in re.findall(r'<script type="application/ld\+json">(.*?)</script>', src, re.S):
+    print("'sha256-" + base64.b64encode(hashlib.sha256(b.encode()).digest()).decode() + "'")
+PY
+```
+
+Secrets: none exist in the repository, and the test suite fails if any appear.
+`.env`, key files and `.DS_Store` are ignored and asserted absent from git.
+
+## Production deployment checklist
+
+Before launch:
+
+- [ ] Run `python3 tests/run-tests.py` and get a green run on the commit you
+      are deploying
+- [ ] Deploy, then confirm the headers actually arrive from the CDN:
+
+```bash
+curl -sI https://YOUR-DOMAIN/ | grep -iE 'content-security-policy|x-frame-options|strict-transport'
+curl -sI https://YOUR-DOMAIN/privacy.html | grep -i content-security-policy
+```
+
+- [ ] Check the browser console on `/`, `/privacy.html` and `/terms.html` for
+      CSP violations after deploy (the JSON-LD hash in particular)
+- [ ] Test the enquiry form, the language switcher and the scroll journey on a
+      real phone
+- [ ] Verify HTTPS redirects `http://` to `https://` and that the certificate
+      auto-renews (Vercel handles both)
+
+Operational notes:
+
+- **HSTS preload:** the header is already marked `preload`. Only submit the
+  domain to the HSTS preload list once HTTPS is confirmed working, because
+  removal from the list is slow. Dropping `preload` from `vercel.json` before
+  launch is fine.
+- **Rollback:** every deploy is a git commit. Roll back from the Vercel
+  dashboard to the previous deployment, or `git revert` and push. Nothing
+  depends on generated artefacts, so a rollback cannot corrupt data.
+- **Monitoring:** the site has no first-party logging by design (no analytics,
+  no tracking). Add an external uptime monitor (UptimeRobot, Better Stack and
+  similar) against `/` and `/privacy.html`; those services need an account and
+  credentials, so this is set up outside this repository.
+- **CI:** run the test suite in CI on every push. This needs a repository on
+  GitHub or similar plus CI credentials, so it is a recommendation rather than
+  something configured here.
+- **Backups:** git is the backup. Keep at least one off-machine clone.
+- **Dependencies:** there are none, so there is nothing to patch. Do not add a
+  package manifest for features that plain HTML, CSS and JavaScript already
+  handle.
 
 ## Launch checklist
 

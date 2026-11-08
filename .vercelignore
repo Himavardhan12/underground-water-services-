@@ -1,0 +1,4 @@
+# Keep the test harness out of the deployed site. It is run locally with
+# python3 tests/run-tests.py and has no business being on the public domain.
+tests/
+.DS_Store
