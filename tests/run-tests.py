@@ -366,6 +366,39 @@ def static_checks():
           not re.search(r"(?:linear|radial)-gradient\([^)]*(?:#7c3aed|#8b5cf6|#a855f7|#6d28d9)",
                         css, re.I))
 
+    # photographed cross-section: asset present, correctly sized and
+    # placed so it covers the scene without stretching the crop
+    photo = os.path.join(ROOT, "assets", "hero-cross-section.jpg")
+    check("photo", "assets/hero-cross-section.jpg exists", os.path.exists(photo))
+    if os.path.exists(photo):
+        head = open(photo, "rb").read(3)
+        check("photo", "backdrop is a real JPEG", head == b"\xff\xd8\xff", repr(head))
+        size = os.path.getsize(photo)
+        check("photo", "backdrop stays under 400 KB", size < 400 * 1024,
+              "%d bytes" % size)
+    m = re.search(r'<image id="photoArt"\s+([^>]+?)/?>', idx, re.S)
+    check("photo", "scene carries <image id=photoArt>", bool(m))
+    if m:
+        attrs = dict(re.findall(r'(\w+)="([^"]*)"', m.group(1)))
+        try:
+            px, py = float(attrs["x"]), float(attrs["y"])
+            pw, ph = float(attrs["width"]), float(attrs["height"])
+        except (KeyError, ValueError) as exc:
+            check("photo", "photoArt has numeric geometry", False, str(exc))
+        else:
+            check("photo", "photo covers the viewBox",
+                  px <= 0 and py <= 0 and px + pw >= 1200 and py + ph >= 800,
+                  "x=%s y=%s w=%s h=%s" % (px, py, pw, ph))
+            check("photo", "photo keeps its 16:9 crop",
+                  abs(pw / ph - 1456 / 816) < 0.01, "%.4f" % (pw / ph))
+            check("photo", "photo fades into the strata",
+                  "photoFade" in attrs.get("mask", ""), attrs.get("mask"))
+            check("photo", "photo file referenced by the scene",
+                  attrs.get("href") == "assets/hero-cross-section.jpg",
+                  attrs.get("href"))
+    check("photo", "drawn rig suppressed only under the photograph",
+          ".scene.has-photo #rigG" in css)
+
 
 # --------------------------------------------------------------------------
 # header checks
@@ -461,6 +494,67 @@ def behaviour_checks(chrome, profile, port):
               d["layout"]["scrollWidth"] <= d["layout"]["innerWidth"],
               "%s > %s" % (d["layout"]["scrollWidth"], d["layout"]["innerWidth"]))
         assert_no_browser_errors(err, "/index.html?p=" + p)
+
+    print("\n== photographed backdrop (?p=) ==")
+    # the ?p=0.35 frame is rendered before the async photo probe answers,
+    # then repainted once it does; the dumped DOM is the settled state
+    dom, err = chrome_dump(chrome, "%s/index.html?p=0.35" % base, profile, budget=9000)
+    d = debug_json(dom)
+    if not d:
+        check("photo", "p=0.35 produced debug output", False)
+    else:
+        check("photo", "photo probe settled on the frame",
+              d.get("photo") is True, str(d.get("photo")))
+        check("photo", "drawn rig hidden under the photograph",
+              d.get("rigShown") is False, str(d.get("rigShown")))
+        # heap sits on open ground between the photo's derrick and house
+        check("photo", "spoil heap clear of derrick and house",
+              d.get("spoilX") == 630, str(d.get("spoilX")))
+        # the bit must hang from the string at the borehole, not the edge
+        check("scene", "drill bit rides at the borehole (x=600)",
+              d.get("bitX") == 600, str(d.get("bitX")))
+    assert_no_browser_errors(err, "/index.html?p=0.35")
+
+    print("\n== photo placement measured from the file ==")
+    # Re-derive the placement from the actual pixels: the horizon row in
+    # the photograph has to land on the scene's ground line (y=300) and
+    # its borehole column on the scene's hole (x=600). If the asset or
+    # the geometry in index.html ever drifts apart, this fails.
+    dom, err = chrome_dump(chrome, base + "/tests/measure-photo.html",
+                           profile, budget=9000)
+    mm = re.search(r'<pre id="out">(.*?)</pre>', dom, re.S)
+    meas = None
+    if mm:
+        try:
+            meas = json.loads(mm.group(1))
+        except json.JSONDecodeError:
+            meas = None
+    if not meas or "horizonRow" not in meas:
+        check("photo", "measure-photo produced measurements", False,
+              (mm.group(1)[:200] if mm else "no output"))
+    else:
+        check("photo", "measurement found a horizon row",
+              isinstance(meas.get("horizonRow"), int), str(meas.get("horizonRow")))
+        check("photo", "measurement found the borehole column",
+              isinstance(meas.get("pipe"), dict) and meas["pipe"].get("mean"),
+              str(meas.get("pipe")))
+        idx = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
+        mi = re.search(r'<image id="photoArt"\s+([^>]+?)/?>', idx, re.S)
+        if mi and isinstance(meas.get("horizonRow"), int):
+            attrs = dict(re.findall(r'(\w+)="([^"]*)"', mi.group(1)))
+            px, py = float(attrs["x"]), float(attrs["y"])
+            pw, ph = float(attrs["width"]), float(attrs["height"])
+            iw, ih = meas["width"], meas["height"]
+            # where the measured horizon maps into scene coordinates
+            horizon_y = py + meas["horizonRow"] * ph / ih
+            check("photo", "photo horizon lands on ground line y=300",
+                  abs(horizon_y - 300) <= 2, "%.2f" % horizon_y)
+            mean = (meas.get("pipe") or {}).get("mean")
+            if mean:
+                bore_x = px + mean * pw / iw
+                check("photo", "photo borehole lands on scene x=600",
+                      abs(bore_x - 600) <= 2, "%.2f" % bore_x)
+        assert_no_browser_errors(err, "/tests/measure-photo.html")
 
     print("\n== scroll behaviour (?y=) ==")
     dom, err = chrome_dump(chrome, "%s/index.html?y=0" % base, profile, budget=8000)

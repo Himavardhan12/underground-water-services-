@@ -682,6 +682,14 @@ html:not([lang="en"]) .enquiry label {
   height: 100%;
 }
 
+/* The photographed cross-section carries its own derrick, so the drawn rig
+   would double it. js/main.js adds .has-photo only once the file has really
+   loaded; without it the drawn rig stays, so a missing photo degrades to the
+   old scene instead of an empty horizon. */
+.scene.has-photo #rigG {
+  display: none;
+}
+
 /* readability scrims */
 .journey-sticky::before {
   content: "";

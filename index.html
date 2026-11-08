@@ -166,6 +166,20 @@
           <stop offset="1" stop-color="#8d99a6"/>
         </linearGradient>
 
+        <!-- The cross-section photograph fades out along its bottom edge so
+             it blends into the drawn strata beneath instead of ending on a
+             hard horizontal line when the camera follows the bit down. -->
+        <linearGradient id="photoFadeG" gradientUnits="userSpaceOnUse"
+                        x1="0" y1="-104.32" x2="0" y2="809.6">
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset=".92" stop-color="#ffffff"/>
+          <stop offset="1" stop-color="#000000"/>
+        </linearGradient>
+        <mask id="photoFade" maskUnits="userSpaceOnUse"
+              x="-200" y="-160" width="1720" height="1020">
+          <rect x="-200" y="-160" width="1720" height="1020" fill="url(#photoFadeG)"/>
+        </mask>
+
         <clipPath id="strataWipe">
           <rect id="wipeRect" x="-400" y="300" width="2000" height="0"/>
         </clipPath>
@@ -258,6 +272,20 @@
             <path d="M880 294 l6 -15"/><path d="M894 294 l-3 -13"/><path d="M1060 294 l5 -14"/>
           </g>
         </g>
+
+        <!-- ===== PHOTOGRAPHED CROSS-SECTION =====
+             The landing art: field, derrick, house and the rock layers with
+             the aquifer, all from one photograph. Placement is measured, not
+             guessed: the photo's horizon (row 361) lands exactly on the
+             scene's ground line y=300 and its borehole (column 680) lands on
+             x=600, so the drawn hole, bit, casing and pump sit inside the
+             borehole the picture already shows. Scale k=1.12 keeps the photo
+             inside the viewBox on every aspect ratio. The drawn sky, rig and
+             strata stay underneath as the fallback if the file is missing;
+             js/main.js hides the drawn rig once the photo has loaded, since
+             the photograph carries its own derrick. -->
+        <image id="photoArt" x="-161.6" y="-104.32" width="1630.72" height="913.92"
+               href="assets/hero-cross-section.jpg" mask="url(#photoFade)"/>
 
         <!-- ===== SPOIL: cuttings discharged clear of the rig ===== -->
         <g id="spoilG" opacity="0">

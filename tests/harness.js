@@ -27,9 +27,64 @@
       } catch (e) {
         ok("harness threw", false, String(e && e.stack || e));
       }
-      finish();
+      /* the backdrop photograph is probed asynchronously by the page, so
+         wait for that answer before judging whether it took effect */
+      waitFor(function () {
+        var s = d.getElementById("scene");
+        return !!s && s.classList.contains("has-photo");
+      }, function () {
+        try {
+          photoChecks(d);
+        } catch (e) {
+          ok("photo checks threw", false, String(e && e.stack || e));
+        }
+        finish();
+      });
     }, 600);
   });
+
+  function waitFor(cond, done, tries) {
+    tries = tries === undefined ? 40 : tries;
+    if (cond() || tries <= 0) return done();
+    setTimeout(function () { waitFor(cond, done, tries - 1); }, 100);
+  }
+
+  /* The landing scene is a photographed cross-section. These checks pin
+     the placement that was measured off the file (its horizon must land
+     on the scene's ground line, its borehole on the scene's hole) and
+     the fallback contract: the drawn art stays in the document and is
+     only suppressed once the photograph has really loaded. */
+  function photoChecks(d) {
+    var img = d.getElementById("photoArt");
+    ok("photographed cross-section is in the scene", !!img);
+    if (!img) return;
+
+    var x = parseFloat(img.getAttribute("x"));
+    var y = parseFloat(img.getAttribute("y"));
+    var w = parseFloat(img.getAttribute("width"));
+    var h = parseFloat(img.getAttribute("height"));
+    ok("photo placement covers the whole viewBox",
+       x <= 0 && y <= 0 && x + w >= 1200 && y + h >= 800,
+       [x, y, w, h].join(","));
+    ok("photo keeps a 16:9 crop (no distortion)",
+       Math.abs(w / h - 1456 / 816) < 0.01,
+       (w / h).toFixed(4));
+    ok("photo is masked so it fades into the drawn strata",
+       (img.getAttribute("mask") || "").indexOf("photoFade") !== -1,
+       img.getAttribute("mask"));
+
+    var scene = d.getElementById("scene");
+    ok("photo probe marked the scene as photographed",
+       scene && scene.classList.contains("has-photo"));
+
+    /* the photograph carries its own derrick, so the drawn rig must be
+       suppressed while still remaining in the DOM as the fallback */
+    var rig = d.getElementById("rigG");
+    ok("drawn rig kept in the document as fallback", !!rig);
+    ok("drawn rig hidden under the photograph",
+       !!rig && d.defaultView.getComputedStyle(rig).display === "none",
+       rig ? d.defaultView.getComputedStyle(rig).display : "missing");
+  }
 
   function run(w, d) {
     /* ---- document structure ---- */

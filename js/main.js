@@ -92,6 +92,37 @@
   const debugParam = new URLSearchParams(window.location.search).get("p");
   const debugMode = debugParam !== null;
   const debugState = {};
+  /* set by the ?p= block below; the photographed backdrop settles
+     asynchronously, so its repaint calls this again to keep the report
+     in step with the art actually on screen */
+  let debugReport = null;
+
+  /* ---------- the photographed cross-section ----------
+     The landing art is a photograph that carries its own derrick, so the
+     drawn rig would show through it as a second tower. The class that
+     hides the drawn rig is added only after the file has really loaded;
+     if it is missing, the drawn sky, rig and strata stay visible as the
+     fallback, exactly as before. */
+  const sceneSvg = document.getElementById("scene");
+  const photoArt = document.getElementById("photoArt");
+  if (sceneSvg && photoArt) {
+    const probe = new Image();
+    const settle = (loaded) => {
+      sceneSvg.classList.toggle("has-photo", loaded);
+      /* a ?p= debug frame is painted synchronously, before this probe has
+         an answer, so it would keep the fallback's spoil position while
+         showing the photograph; repaint that one frame once the file has
+         settled. In normal use the scroll loop repaints anyway. */
+      if (debugMode) {
+        render(clamp(parseFloat(debugParam) || 0, 0, 1), 0, false);
+        if (debugReport) debugReport();
+      }
+    };
+    probe.onload = () => settle(true);
+    probe.onerror = () => settle(false);
+    probe.src = photoArt.getAttribute("href") || "";
+  }
+  const photoArtOn = () => !!(sceneSvg && sceneSvg.classList.contains("has-photo"));
 
   /* ---------- drill string tool joints ----------
      One coupling per pipe section, anchored to the bit so the string
@@ -297,8 +328,12 @@
     holeClipRect.setAttribute("height", holeDepth.toFixed(1));
 
     const bitY = tip + 6;
-    drillBit.setAttribute("transform", `translate(0 ${bitY.toFixed(1)})`);
-    drillCollar.setAttribute("transform", `translate(0 ${bitY.toFixed(1)})`);
+    /* the bit path and the collar rect are drawn centred on x=0, so they
+       need the borehole's own x (600) as well as the depth: with a Y-only
+       translate they floated at the scene's left edge, detached from the
+       string they belong to */
+    drillBit.setAttribute("transform", `translate(600 ${bitY.toFixed(1)})`);
+    drillCollar.setAttribute("transform", `translate(600 ${bitY.toFixed(1)})`);
     drillString.setAttribute("y", "54");
     drillString.setAttribute("height", Math.max(0, bitY - 54).toFixed(1));
 
@@ -352,19 +387,23 @@
       const spoilT = smooth(seg(p, 0.24, P_DRILL_OUT));
       spoilG.setAttribute("opacity", spoilT.toFixed(3));
       if (spoilT > 0.01) {
+        /* On the photograph the heap lands on the open ground between the
+           derrick and the house (x 630-770); on the drawn fallback it keeps
+           its old position further right of the rig. */
+        const sx = photoArtOn() ? 630 : 830;
         const h = 6 + spoilT * 46;
         spoilMound.setAttribute(
           "d",
-          `M830 300 Q910 ${(300 - 2 * h).toFixed(1)} 990 300 Z`
+          `M${sx} 300 Q${sx + 80} ${(300 - 2 * h).toFixed(1)} ${sx + 160} 300 Z`
         );
         spoilCap.setAttribute(
           "d",
-          `M848 300 Q910 ${(300 - 2 * h * 0.68).toFixed(1)} 972 300 Z`
+          `M${sx + 18} 300 Q${sx + 80} ${(300 - 2 * h * 0.68).toFixed(1)} ${sx + 142} 300 Z`
         );
         spoilChips.forEach((c, i) => {
           const u = 0.12 + i * 0.152;
           const k = 1 - u;
-          const cx = k * k * 830 + 2 * k * u * 910 + u * u * 990;
+          const cx = k * k * sx + 2 * k * u * (sx + 80) + u * u * (sx + 160);
           const cy = k * k * 300 + 2 * k * u * (300 - 2 * h) + u * u * 300;
           c.setAttribute("cx", cx.toFixed(1));
           c.setAttribute("cy", (cy - 2).toFixed(1));
@@ -519,6 +558,20 @@
       debugState.scanY = Number(scanY.toFixed(1));
       debugState.pumpY = Number(pumpY.toFixed(1));
       debugState.active = activeStep;
+      /* the photographed backdrop: which art is on screen, whether the
+         drawn rig is suppressed under it, and where the two pieces of
+         scene furniture that move per-art ended up this frame */
+      debugState.photo = photoArtOn();
+      const rigEl = document.getElementById("rigG");
+      debugState.rigShown = rigEl
+        ? getComputedStyle(rigEl).display !== "none"
+        : null;
+      const moundD = spoilMound ? spoilMound.getAttribute("d") || "" : "";
+      const moundX = /^M(-?\d+(?:\.\d+)?)/.exec(moundD);
+      debugState.spoilX = moundX ? Number(moundX[1]) : null;
+      const bitTf = drillBit ? drillBit.getAttribute("transform") || "" : "";
+      const bitX = /translate\((-?\d+(?:\.\d+)?)/.exec(bitTf);
+      debugState.bitX = bitX ? Number(bitX[1]) : null;
     }
   }
 
@@ -997,10 +1050,16 @@
     const dp = clamp(parseFloat(debugParam) || 0, 0, 1);
     render(dp, 0, false);
     /* the caption fade runs for 0.55s, so the report is written once
-       it has settled rather than on the frame the class was set */
-    window.setTimeout(() => {
-      const pre = document.createElement("pre");
-      pre.id = "debug";
+       it has settled rather than on the frame the class was set.
+       It is also rewritten when the backdrop photograph settles, so the
+       reported art state matches what is on screen. */
+    debugReport = () => {
+      let pre = document.getElementById("debug");
+      if (!pre) {
+        pre = document.createElement("pre");
+        pre.id = "debug";
+        document.body.appendChild(pre);
+      }
       pre.textContent = JSON.stringify(
         Object.assign({}, debugState, {
           windows: STEP_WINDOWS.map((w) => w.map((v) => Number(v.toFixed(4)))),
@@ -1027,7 +1086,7 @@
         null,
         2
       );
-      document.body.appendChild(pre);
-    }, 750);
+    };
+    window.setTimeout(debugReport, 750);
   }
 })();
