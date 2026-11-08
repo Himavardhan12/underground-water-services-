@@ -590,27 +590,34 @@ button:focus-visible,
 .steps {
   position: absolute;
   z-index: 4;
-  left: clamp(20px, 7vw, 110px);
-  bottom: clamp(40px, 8vh, 88px);
-  width: min(440px, calc(100vw - 48px));
+  left: 0;
+  right: 0;
+  bottom: clamp(44px, 9vh, 96px);
   height: 0;
   pointer-events: none;
 }
 
+/* no card: the text sits straight on the scene beside the drill,
+   odd services on its left, even ones on its right */
 .step {
   position: absolute;
-  left: 0;
   bottom: 0;
-  width: 100%;
-  padding: 20px 22px 21px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: linear-gradient(160deg, rgba(14, 28, 42, 0.82), rgba(7, 14, 23, 0.72));
-  box-shadow: 0 26px 70px -30px rgba(0, 0, 0, 0.9);
+  width: min(430px, 34vw);
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.55s var(--ease), transform 0.65s var(--ease);
   will-change: opacity, transform;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8), 0 0 44px rgba(0, 0, 0, 0.55);
+}
+
+.step:nth-child(odd) {
+  right: calc(50% + clamp(36px, 3.5vw, 64px));
+  text-align: right;
+}
+
+.step:nth-child(even) {
+  left: calc(50% + clamp(36px, 3.5vw, 64px));
+  text-align: left;
 }
 
 .step.is-active {
@@ -621,22 +628,22 @@ button:focus-visible,
 .step-num {
   display: inline-block;
   font-family: var(--font-head);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   color: var(--amber);
-  margin-bottom: 8px;
+  margin-bottom: 9px;
 }
 
 .step h3 {
-  font-size: 1.22rem;
-  margin-bottom: 7px;
+  font-size: 1.5rem;
+  margin-bottom: 9px;
 }
 
 .step p {
   color: var(--muted);
-  font-size: 0.9rem;
-  line-height: 1.58;
+  font-size: 1.02rem;
+  line-height: 1.6;
 }
 
 .step-cta {
@@ -649,6 +656,10 @@ button:focus-visible,
 
 .step.is-active .step-cta {
   pointer-events: auto;
+}
+
+.step:nth-child(odd) .step-cta {
+  justify-content: flex-end;
 }
 
 .step-cta .btn {
@@ -1552,20 +1563,24 @@ button:focus-visible,
   .steps {
     left: 20px;
     right: 20px;
-    width: auto;
     bottom: clamp(26px, 6vh, 50px);
   }
 
-  .step {
-    padding: 16px 17px 17px;
+  /* tablets and phones fall back to one column under the drill */
+  .step:nth-child(odd),
+  .step:nth-child(even) {
+    left: 0;
+    right: 0;
+    width: auto;
+    text-align: left;
   }
 
   .step h3 {
-    font-size: 1.06rem;
+    font-size: 1.2rem;
   }
 
   .step p {
-    font-size: 0.84rem;
+    font-size: 0.94rem;
   }
 
   .depth-hud {
